@@ -1,9 +1,13 @@
 package com.bluurr.quora.page;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.bluurr.quora.domain.LoginCredential;
+import com.github.webdriverextensions.Bot;
 
 /**
  * Login page for quora.
@@ -11,8 +15,21 @@ import com.bluurr.quora.domain.LoginCredential;
  * @author chris
  *
  */
-public class LoginPage extends PageObject<LoginPage>
+public class LoginPage extends PageObject
 {
+	public static LoginPage open(final URI location)
+	{
+		try 
+		{
+			Bot.driver().navigate().to(location.toURL());
+		} catch (final MalformedURLException err) 
+		{
+			throw new IllegalStateException("Unable to load login page", err);
+		}
+		
+		return new LoginPage();
+	}
+	
 	@FindBy(xpath="//input[contains(@class, 'header_login_text_box') and @name = 'email']")
 	private WebElement username;
 	
@@ -22,7 +39,7 @@ public class LoginPage extends PageObject<LoginPage>
 	@FindBy(xpath="//input[contains(@class, 'submit_button') and @value = 'Login']")
 	private WebElement submitButton;
 	
-	public void login(final LoginCredential credential)
+	public DashBoardPage login(final LoginCredential credential)
 	{
 		username.clear();
 		username.sendKeys(credential.getUsername());
@@ -31,5 +48,7 @@ public class LoginPage extends PageObject<LoginPage>
 		password.sendKeys(credential.getPassword());
 		
 		submitButton.click();
+		
+		return DashBoardPage.open();
 	}
 }

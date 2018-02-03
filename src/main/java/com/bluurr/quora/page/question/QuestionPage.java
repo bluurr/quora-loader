@@ -9,18 +9,20 @@ import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.page.PageObject;
 import com.github.webdriverextensions.Bot;
 
-public class QuestionPage extends PageObject<QuestionPage>
+public class QuestionPage extends PageObject
 {
+	public static QuestionPage open(final String location)
+	{
+		QuestionPage page = new QuestionPage();
+		Bot.driver().navigate().to(location);
+		return page;
+	}
+
 	private static final int MAX_FETCH = 25;
 	
 	@FindBy(xpath="//div[@class='AnswerListDiv']//div[@class='pagedlist_item']")
 	private List<QuestionAnswerComponent> answers;
-		
-	public void openQuestion(final String location) 
-	{
-		getDriver().navigate().to(location);
-	}
-	
+
 	public Question getQuestion()
 	{
 		Question question = new Question();

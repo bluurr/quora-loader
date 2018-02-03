@@ -5,33 +5,58 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.bluurr.quora.domain.QuestionSummary;
-import com.bluurr.quora.driver.ExtendedExpectedCondition;
+import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.page.PageObject;
 
-public class SearchPage extends PageObject<SearchPage>
+public class SearchPage extends PageObject
 {
+	public static SearchPage open() 
+	{
+		SearchPage search = new SearchPage();
+		search.waitTillLoaded();
+		return search;
+	}
+	
 	@FindBy(xpath="//div[@class='pagedlist_item']")
 	private List<SearchQuestionComponent> questions;
 	
 	@FindBy(xpath="//div[contains(@class, 'pagedlist_hidden')]")
 	private List<WebElement> firstUnloadQuestion;
 
-	public void search(final String term) 
-	{
-		//getDriver().navigate().to(baseLocation.toASCIIString() + "/search?q=" + term);
-	}
-	
-	public boolean hasPending()
+	public boolean hasNext()
 	{
 		return !firstUnloadQuestion.isEmpty();
 	}
-	
-	public String getTopPendingQuestionId()
+
+	public int getLoadedQuestionSize()
 	{
-		return firstUnloadQuestion.isEmpty() ? "" : firstUnloadQuestion.get(0).getAttribute("id");
+		return questions.size();
+	}
+	
+	public SearchPage fetch(int maxItemCount) 
+	{
+		if(maxItemCount < 1 || maxItemCount > 50)
+		{
+			throw new IllegalArgumentException("Itemcount count must be between 1 and 50 in size.");
+		}
+		
+		while(hasNext() && maxItemCount > getLoadedQuestionSize())
+		{
+			int current = getLoadedQuestionSize();
+			fetchNext(current);
+			
+			/**
+			 * No more record were loaded.
+			 */
+			if(current <= getLoadedQuestionSize())
+			{
+				break;
+			}
+		}
+		
+		return this;
 	}
 	
 	public List<QuestionSummary> getSummary()
@@ -41,10 +66,14 @@ public class SearchPage extends PageObject<SearchPage>
 		return results;
 	}
 	
-	@Override
-	protected void isLoaded() throws Error 
+	private void fetchNext(final int offset)
 	{
-		WebDriverWait wait = new WebDriverWait(getDriver(), 3);
-		wait.until(ExtendedExpectedCondition.numberOfElementsToBeMoreThan(firstUnloadQuestion, 0));
+		BotExtra.scrollToPageBottom();
+		BotExtra.waitForNumberOfElementsToBeMoreThan(offset, questions);
+	}
+		
+	private void waitTillLoaded()
+	{
+		BotExtra.waitForNumberOfElementsToBeMoreThan(0, firstUnloadQuestion);
 	}
 }

@@ -3,36 +3,66 @@ package com.bluurr.quora;
 import java.net.URI;
 import java.util.List;
 
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import com.bluurr.quora.domain.LoginCredential;
 import com.bluurr.quora.domain.Question;
 import com.bluurr.quora.domain.QuestionSummary;
-import com.bluurr.quora.driver.ChromeWebDriverFactory;
-import com.bluurr.quora.driver.WebDriverFactory;
+import com.bluurr.quora.extension.BotExtra;
+import com.bluurr.quora.page.DashBoardPage;
+import com.bluurr.quora.page.LoginPage;
+import com.bluurr.quora.page.question.QuestionPage;
+import com.github.webdriverextensions.Bot;
+import com.github.webdriverextensions.WebDriverExtensionsContext;
 
 public class TestClass 
 {
 	public static void main(String[] args) 
 	{
-		final String username = args[0];
-		final String password = args[1];
+		init();
 		
-		LoginCredential login = new LoginCredential(username, password);
-
-		WebDriverFactory factory = new ChromeWebDriverFactory();
-		
-		try(QuestionExtractor loader = new QuestionExtractor(login, URI.create("https://www.quora.com"), 
-				factory))
+		try
 		{
-			List<QuestionSummary> results = loader.search("Java", 2);
+			DashBoardPage dashboard = 
+					LoginPage.open(getTarget(args)).login(getLogin(args));
+			
+			List<QuestionSummary> results = 
+					dashboard.search("Java").fetch(15).getSummary();
 			
 			if(!results.isEmpty())
 			{
+				final QuestionSummary top = results.get(0);
+				
+				QuestionPage questionPage = 
+						QuestionPage.open(top.getLocation());
+				
 				Question question = 
-						loader.getQuestion(results.get(0).getLocation());
+						questionPage.getQuestion();
 				
 				int x = 0;
 			}
+		} finally
+		{
+			BotExtra.closeDriver();
 		}
 	}
-
+	
+	private static void init()
+	{
+		WebDriverExtensionsContext.setDriver(new ChromeDriver());
+		Bot.driver().manage().deleteAllCookies();
+	}
+	
+	private static LoginCredential getLogin(String[] args)
+	{
+		final String username = args[0];
+		final String password = args[1];
+		
+		return new LoginCredential(username, password);
+	}
+	
+	private static URI getTarget(String[] args)
+	{
+		return URI.create("https://www.quora.com");
+	}
 }
