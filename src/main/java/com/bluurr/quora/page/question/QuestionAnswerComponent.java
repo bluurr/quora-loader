@@ -13,8 +13,11 @@ import com.github.webdriverextensions.WebComponent;
 
 public class QuestionAnswerComponent extends WebComponent
 {
-	@FindBy(xpath=".//*[contains(@class, 'ui_qtext_para')] | .//*[contains(@class, 'ui_qtext_rendered_qtext')]")
+	@FindBy(className="ui_qtext_para")
 	private List<WebElement> messages;
+	
+	@FindBy(className="ui_qtext_expanded")
+	private List<WebElement> extendedMessages;
 	
 	@FindBy(xpath=".//a[@class='user']")
 	private List<WebElement> user;
@@ -29,6 +32,11 @@ public class QuestionAnswerComponent extends WebComponent
 		List<String> results = 
 				messages.stream().map(WebElement::getText).collect(Collectors.toList());
 
+		if(results.isEmpty())
+		{
+			results = extendedMessages.stream().map(WebElement::getText).collect(Collectors.toList());
+		}
+		
 		Answer answer = new Answer();
 		answer.setMessage(results);
 		answer.setWho(getWho());

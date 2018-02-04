@@ -1,4 +1,4 @@
-package com.bluurr.quora;
+package com.bluurr.quora.it;
 
 import java.net.URI;
 import java.util.List;
@@ -27,7 +27,7 @@ public class TestClass
 					LoginPage.open(getTarget(args)).login(getLogin(args));
 			
 			List<QuestionSummary> results = 
-					dashboard.search("Java").fetch(15).getSummary();
+					dashboard.search("aws").fetch(5);
 			
 			if(!results.isEmpty())
 			{
@@ -36,8 +36,7 @@ public class TestClass
 				QuestionPage questionPage = 
 						QuestionPage.open(top.getLocation());
 				
-				Question question = 
-						questionPage.getQuestion();
+				Question question = questionPage.fetchWithComment(10);
 				
 				int x = 0;
 			}

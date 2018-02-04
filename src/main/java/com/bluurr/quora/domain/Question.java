@@ -6,6 +6,7 @@ import java.util.List;
 public class Question 
 {
 	private String location;
+	private String asked;
 	private List<Answer> answers;
 	
 	public Question()
@@ -34,9 +35,19 @@ public class Question
 		this.answers = answers;
 	}
 
+	public String getAsked() 
+	{
+		return asked;
+	}
+
+	public void setAsked(final String asked)
+	{
+		this.asked = asked;
+	}
+
 	@Override
 	public String toString() 
 	{
-		return "Question [location=" + location + ", answers=" + answers + "]";
+		return "Question [location=" + location + ", asked=" + asked + ", answers=" + answers + "]";
 	}
 }

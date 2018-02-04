@@ -2,7 +2,9 @@ package com.bluurr.quora.page;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.Arrays;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,6 +19,12 @@ import com.github.webdriverextensions.Bot;
  */
 public class LoginPage extends PageObject
 {
+	public static boolean isLoggedIn()
+	{
+		WebElement body = Bot.driver().findElement(By.tagName("body"));
+		return !Arrays.asList(body.getAttribute("class").split(" ")).contains("logged_out");
+	}
+	
 	public static LoginPage open(final URI location)
 	{
 		try 

@@ -2,11 +2,11 @@ package com.bluurr.quora.extension;
 
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.webdriverextensions.Bot;
+import com.github.webdriverextensions.WebDriverExtensionsContext;
 
 /**
  * 
@@ -20,11 +20,12 @@ public class BotExtra
 	public static void closeDriver() 
 	{
 		Bot.driver().close();
+		WebDriverExtensionsContext.removeDriver();
 	}
 
 	public static void scrollToPageBottom()
 	{
-		getJavascriptDriver().executeScript("window.scrollBy(0, document.body.scrollHeight)", "");
+		Bot.executeJavascript("window.scrollBy(0, document.body.scrollHeight)", "");
 	}
 	
 	public static void waitForNumberOfElementsToBeMoreThan(final int startSize, 
@@ -32,10 +33,5 @@ public class BotExtra
 	{
 		WebDriverWait wait = new WebDriverWait(Bot.driver(), DEFAULT_TIMEOUT_SECONDS, 1000);
 	    wait.until(driver -> elements.size() > startSize);
-	}
-	
-	private static JavascriptExecutor getJavascriptDriver()
-	{
-		return ((JavascriptExecutor) Bot.driver());
 	}
 }

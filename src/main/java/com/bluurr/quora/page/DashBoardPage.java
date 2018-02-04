@@ -29,7 +29,7 @@ public class DashBoardPage extends PageObject
 	@FindBy(xpath="//textarea[contains(@class, 'selector_input') and @placeholder = 'Search Quora']")
 	private WebElement searchBar;
 	
-	@FindBy(how=How.CLASS_NAME, className="lookup_bar_modal_overlay")
+	@FindBy(className="lookup_bar_modal_overlay")
 	private WebElement overlay;
 	
 	public SearchPage search(final String term)

@@ -48,5 +48,4 @@ public class LoginCredential
 	{
 		return "LoginCredential [username=" + username + ", password=" + password == null ? null : "******" + "]";
 	}
-	
 }

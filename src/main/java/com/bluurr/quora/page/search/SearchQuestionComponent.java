@@ -1,8 +1,9 @@
 package com.bluurr.quora.page.search;
 
-import javax.annotation.Nullable;
+import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.bluurr.quora.domain.QuestionSummary;
@@ -10,14 +11,24 @@ import com.github.webdriverextensions.WebComponent;
 
 public class SearchQuestionComponent extends WebComponent
 {
-	@FindBy(xpath=".//span[@class='question_text']/span[@class='rendered_qtext']")
+	@FindAll({
+		@FindBy(xpath = ".//*[@class='question_text']/span[@class='rendered_qtext']"),	
+		@FindBy(xpath = ".//*[contains(@class, 'TopicNameSpan')]/span[@class='rendered_qtext']"),	
+		@FindBy(xpath = ".//*[contains(@class, 'BoardItemTitle')]/span[@class='rendered_qtext']")
+	})
 	private WebElement question;
-
-	@FindBy(xpath=".//a[@class='question_link' or @class='question_link with_source']")
+	
+	@FindAll({
+		@FindBy(className = "question_link"),	
+		@FindBy(css = ".question_link.with_source"),	
+		@FindBy(className = "TopicNameLink"),	
+		@FindBy(className = "user"),	
+		@FindBy(className = "BoardItemTitle")
+	})
 	private WebElement location;
 	
 	@FindBy(xpath=".//div[@class='answer_total']/span[@class='ans_count']")
-	private WebElement totalAnswers;
+	private List<WebElement> totalAnswers;
 	
 	public SearchQuestionComponent()
 	{
@@ -31,23 +42,29 @@ public class SearchQuestionComponent extends WebComponent
 		summary.setId(getAttribute("id"));
 		summary.setQuestion(question.getText());
 		summary.setLocation(location.getAttribute("href"));
-		summary.setAnswers(toTotal());
+		summary.setAnswers(getAnswerTotal());
 		return summary;
 	}
 
-	private @Nullable Integer toTotal() 
+	private int getAnswerTotal() 
 	{
-		String totalValue = totalAnswers.getText();
-		
-		if(totalValue != null)
+		if(!totalAnswers.isEmpty())
 		{
-			int last = totalValue.lastIndexOf("of");
+			String answerCount = totalAnswers.get(0).getText();
 			
-			if(last != -1)
+			if(answerCount != null)
 			{
-				return Integer.parseInt(totalValue.substring(last + 2, totalValue.length() - 1).trim());
+				/** Example format:  Answer 1 of 1,229 */
+				int last = answerCount.lastIndexOf("of");
+				
+				if(last != -1)
+				{
+					String totalAnswer = 
+							answerCount.substring(last).replaceAll("[^0-9]", "");
+					return Integer.parseInt(totalAnswer);
+				}
 			}
 		}
-		return null;
+		return 0;
 	}
 }
