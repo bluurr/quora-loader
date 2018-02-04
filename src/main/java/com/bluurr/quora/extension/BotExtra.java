@@ -9,6 +9,7 @@ import com.github.webdriverextensions.Bot;
 import com.github.webdriverextensions.WebDriverExtensionsContext;
 
 /**
+ * Extra Web driver helper methods following on from @see {com.github.webdriverextensions.Bot}.
  * 
  * @author chris
  *

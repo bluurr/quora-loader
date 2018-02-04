@@ -12,7 +12,7 @@ import com.bluurr.quora.domain.LoginCredential;
 import com.github.webdriverextensions.Bot;
 
 /**
- * Login page for quora.
+ * Login page for Quora.
  * 
  * @author chris
  *

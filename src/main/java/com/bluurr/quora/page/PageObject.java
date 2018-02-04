@@ -17,4 +17,8 @@ public abstract class PageObject
 	{ 
 		PageFactory.initElements(new WebDriverExtensionFieldDecorator(Bot.driver()), this); 
 	}
+	
+	protected void waitForLoaded()
+	{
+	}
 }

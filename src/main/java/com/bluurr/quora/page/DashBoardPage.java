@@ -5,12 +5,12 @@ import java.util.Objects;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 
 import com.bluurr.quora.page.search.SearchPage;
 import com.github.webdriverextensions.Bot;
 
 /**
+ * Main DashBoard page for Quora once logged in.
  * 
  * @author chris
  *
@@ -20,7 +20,7 @@ public class DashBoardPage extends PageObject
 	public static DashBoardPage open() 
 	{
 		DashBoardPage dashboard = new DashBoardPage();
-		dashboard.waitTillLoaded();
+		dashboard.waitForLoaded();
 		return dashboard;
 	}
 	
@@ -37,12 +37,14 @@ public class DashBoardPage extends PageObject
 		searchPrecondition(term);
 		
 		searchBar.sendKeys(term);
+		/** Pop-up overlay ensures the search has fully loaded otherwise searching will fail to submit. */
 		Bot.waitForElementToDisplay(overlay, MAX_WAIT_SECONDS);
 		searchBar.sendKeys(Keys.ENTER);
 		return SearchPage.open();
 	}
 	
-	private void waitTillLoaded()
+	@Override
+	protected void waitForLoaded()
 	{
 		Bot.waitForElementToDisplay(searchBar, MAX_WAIT_SECONDS);
 	}

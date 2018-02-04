@@ -1,7 +1,7 @@
 package com.bluurr.quora.domain;
 
 /**
- * Holds the summary of a given question
+ * A summary of a question posted by a Quroa user.
  * 
  * @author chris
  *

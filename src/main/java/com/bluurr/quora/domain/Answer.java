@@ -5,9 +5,15 @@ import java.util.List;
 
 import com.google.common.base.Splitter;
 
+/**
+ * Answer posted by a Quroa user.
+ * 
+ * @author chris
+ *
+ */
 public class Answer 
 {
-	private String who;
+	private String username;
 	private List<String> comments;
 	
 	public Answer()
@@ -16,14 +22,14 @@ public class Answer
 		this.comments = new ArrayList<>();
 	}
 	
-	public String getWho() 
+	public String getUsername() 
 	{
-		return who;
+		return username;
 	}
 	
-	public void setWho(final String who) 
+	public void setUsername(final String username) 
 	{
-		this.who = who;
+		this.username = username;
 	}
 	
 	public List<String> getComments()
@@ -31,7 +37,7 @@ public class Answer
 		return comments;
 	}
 	
-	public void setMessage(final List<String> comments) 
+	public void setComments(final List<String> comments) 
 	{
 		this.comments = comments;
 	}
@@ -43,7 +49,7 @@ public class Answer
 	 * @return
 	 * A list of all comment, with no comment greater than the maxLength.
 	 */
-	public List<String> getComments(final int maxLength)
+	public List<String> getSplitComments(final int maxLength)
 	{
 		final List<String> result = new ArrayList<>();
 		
@@ -64,6 +70,6 @@ public class Answer
 	@Override
 	public String toString() 
 	{
-		return "Answer [who=" + who + ", comments=" + comments + "]";
+		return "Answer [username=" + username + ", comments=" + comments + "]";
 	}
 }

@@ -27,7 +27,7 @@ public class TestClass
 					LoginPage.open(getTarget(args)).login(getLogin(args));
 			
 			List<QuestionSummary> results = 
-					dashboard.search("aws").fetch(5);
+					dashboard.search("aws").getQuestions(5);
 			
 			if(!results.isEmpty())
 			{
@@ -36,7 +36,7 @@ public class TestClass
 				QuestionPage questionPage = 
 						QuestionPage.open(top.getLocation());
 				
-				Question question = questionPage.fetchWithComment(10);
+				Question question = questionPage.getQuestion(10);
 				
 				int x = 0;
 			}

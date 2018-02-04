@@ -11,6 +11,12 @@ import org.openqa.selenium.support.FindBy;
 import com.bluurr.quora.domain.Answer;
 import com.github.webdriverextensions.WebComponent;
 
+/**
+ * Sub component of each answer with Quora question page.
+ * 
+ * @author chris
+ *
+ */
 public class QuestionAnswerComponent extends WebComponent
 {
 	@FindBy(className="ui_qtext_para")
@@ -29,22 +35,26 @@ public class QuestionAnswerComponent extends WebComponent
 	
 	public Answer getAnswer()
 	{
-		List<String> results = 
-				messages.stream().map(WebElement::getText).collect(Collectors.toList());
+		List<String> results = toMessagesText(messages);
 
 		if(results.isEmpty())
 		{
-			results = extendedMessages.stream().map(WebElement::getText).collect(Collectors.toList());
+			results = toMessagesText(extendedMessages);
 		}
 		
 		Answer answer = new Answer();
-		answer.setMessage(results);
-		answer.setWho(getWho());
+		answer.setComments(results);
+		answer.setUsername(getUsername());
 		return answer;
 	}
 	
-	private @Nullable String getWho()
+	private @Nullable String getUsername()
 	{
 		return !user.isEmpty() ? user.get(0).getText() : null;
+	}
+	
+	private List<String> toMessagesText(final List<WebElement> messages)
+	{
+		return messages.stream().map(WebElement::getText).collect(Collectors.toList());
 	}
 }

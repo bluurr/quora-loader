@@ -1,12 +1,12 @@
 com\bluurr\quora\page\question\QuestionPage.class
 com\bluurr\quora\page\search\SearchQuestionComponent.class
+com\bluurr\quora\page\question\QuestionAnswerComponent.class
+com\bluurr\quora\page\search\SearchPage.class
 com\bluurr\quora\domain\LoginCredential.class
 com\bluurr\quora\page\DashBoardPage.class
 com\bluurr\quora\domain\Answer.class
+com\bluurr\quora\domain\Question.class
 com\bluurr\quora\domain\QuestionSummary.class
 com\bluurr\quora\extension\BotExtra.class
-com\bluurr\quora\page\question\QuestionAnswerComponent.class
-com\bluurr\quora\page\search\SearchPage.class
-com\bluurr\quora\domain\Question.class
 com\bluurr\quora\page\PageObject.class
 com\bluurr\quora\page\LoginPage.class

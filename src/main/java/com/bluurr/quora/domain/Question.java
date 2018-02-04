@@ -3,6 +3,12 @@ package com.bluurr.quora.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Question posted by a Quroa user.
+ * 
+ * @author chris
+ *
+ */
 public class Question 
 {
 	private String location;

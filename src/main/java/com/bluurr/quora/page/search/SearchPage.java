@@ -17,6 +17,12 @@ import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.page.PageObject;
 import com.github.webdriverextensions.Bot;
 
+/**
+ * Question search page for Quora once logged in.
+ * 
+ * @author chris
+ *
+ */
 public class SearchPage extends PageObject
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchPage.class);
@@ -38,7 +44,7 @@ public class SearchPage extends PageObject
 	public static SearchPage open() 
 	{
 		SearchPage search = new SearchPage();
-		search.waitTillLoaded();
+		search.waitForLoaded();
 		return search;
 	}
 	
@@ -46,40 +52,61 @@ public class SearchPage extends PageObject
 	private List<SearchQuestionComponent> questions;
 	
 	@FindBy(className="pagedlist_hidden")
-	private List<WebElement> unloadedQuestions;
+	private List<WebElement> hiddenQuestions;
 	
 	@FindBy(className="results_empty")
-	private List<WebElement> noResult;
+	private List<WebElement> noResults;
 
 	public int getQuestionSize()
 	{
 		return questions.size();
 	}
 		
-	public List<QuestionSummary> fetch(final int maxQuestions)
+	public List<QuestionSummary> getQuestions(final int maxQuestions)
 	{
-		buffer(maxQuestions);
+		if(questions.size() < maxQuestions)
+		{
+			loadHiddenQuestions(maxQuestions);
+		}
+		
 		List<QuestionSummary> results = 
 				questions.stream().map(SearchQuestionComponent::getSummary).collect(Collectors.toList());
 		return results;
 	}
 	
-	private boolean hasUnloadedQuestions()
+	@Override
+	protected void waitForLoaded()
 	{
-		return !unloadedQuestions.isEmpty();
+		if(noResults.isEmpty())
+		{
+			BotExtra.waitForNumberOfElementsToBeMoreThan(0, questions);
+			
+			try
+			{
+				BotExtra.waitForNumberOfElementsToBeMoreThan(0, hiddenQuestions);
+			} catch(final TimeoutException err)
+			{
+				LOGGER.warn("Page didn't load any extra results.", err);
+			}
+		}
 	}
 	
-	private void buffer(int itemCount) 
+	private boolean hasHiddenQuestions()
 	{
-		if(itemCount < 1 )
+		return !hiddenQuestions.isEmpty();
+	}
+	
+	private void loadHiddenQuestions(final int maxQuestions) 
+	{
+		if(maxQuestions < 1 )
 		{
-			throw new IllegalArgumentException("Itemcount count must be greater than 1.");
+			throw new IllegalArgumentException("Max questions count must be greater than 1.");
 		}
 		
-		while(hasUnloadedQuestions() && itemCount > getQuestionSize())
+		while(hasHiddenQuestions() && maxQuestions > getQuestionSize())
 		{
 			int current = getQuestionSize();
-			fetchNext(current);
+			triggerHiddenQuestionsLoad(current);
 			
 			/**
 			 * No more record were loaded.
@@ -91,25 +118,9 @@ public class SearchPage extends PageObject
 		}
 	}
 	
-	private void fetchNext(final int offset)
+	private void triggerHiddenQuestionsLoad(final int offset)
 	{
 		BotExtra.scrollToPageBottom();
 		BotExtra.waitForNumberOfElementsToBeMoreThan(offset, questions);
-	}
-		
-	private void waitTillLoaded()
-	{
-		if(noResult.isEmpty())
-		{
-			BotExtra.waitForNumberOfElementsToBeMoreThan(0, questions);
-			
-			try
-			{
-				BotExtra.waitForNumberOfElementsToBeMoreThan(0, unloadedQuestions);
-			} catch(final TimeoutException err)
-			{
-				LOGGER.warn("Page didn't load any extra results.", err);
-			}
-		}
 	}
 }

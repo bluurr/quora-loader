@@ -9,6 +9,12 @@ import org.openqa.selenium.support.FindBy;
 import com.bluurr.quora.domain.QuestionSummary;
 import com.github.webdriverextensions.WebComponent;
 
+/**
+ * Sub component of each question with Quora search page results.
+ * 
+ * @author chris
+ *
+ */
 public class SearchQuestionComponent extends WebComponent
 {
 	@FindAll({
@@ -38,7 +44,6 @@ public class SearchQuestionComponent extends WebComponent
 	public QuestionSummary getSummary()
 	{
 		QuestionSummary summary = new QuestionSummary();
-		
 		summary.setId(getAttribute("id"));
 		summary.setQuestion(question.getText());
 		summary.setLocation(location.getAttribute("href"));
