@@ -3,7 +3,7 @@ package com.bluurr.quora.domain;
 /**
  * A summary of a question posted by a Quroa user.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class QuestionSummary 

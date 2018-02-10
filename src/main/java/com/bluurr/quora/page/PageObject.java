@@ -8,7 +8,7 @@ import com.github.webdriverextensions.WebDriverExtensionFieldDecorator;
 /**
  * Base for Selenium page object instances.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public abstract class PageObject

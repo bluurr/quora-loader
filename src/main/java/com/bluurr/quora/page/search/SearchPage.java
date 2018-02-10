@@ -20,7 +20,7 @@ import com.github.webdriverextensions.Bot;
 /**
  * Question search page for Quora once logged in.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class SearchPage extends PageObject

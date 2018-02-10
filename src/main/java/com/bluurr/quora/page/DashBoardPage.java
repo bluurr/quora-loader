@@ -12,7 +12,7 @@ import com.github.webdriverextensions.Bot;
 /**
  * Main DashBoard page for Quora once logged in.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class DashBoardPage extends PageObject

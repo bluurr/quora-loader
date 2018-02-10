@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Question posted by a Quroa user.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class Question 

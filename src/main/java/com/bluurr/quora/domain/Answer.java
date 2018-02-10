@@ -8,7 +8,7 @@ import com.google.common.base.Splitter;
 /**
  * Answer posted by a Quroa user.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class Answer 
@@ -66,7 +66,13 @@ public class Answer
 
 		return result;
 	}
+	
 
+	public boolean hasAnswer() 
+	{
+		return !getComments().isEmpty();
+	}
+	
 	@Override
 	public String toString() 
 	{

@@ -12,7 +12,7 @@ import com.github.webdriverextensions.WebComponent;
 /**
  * Sub component of each question with Quora search page results.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class SearchQuestionComponent extends WebComponent

@@ -16,7 +16,7 @@ import com.github.webdriverextensions.Bot;
 /**
  * Question page for Quora once logged in.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class QuestionPage extends PageObject
@@ -54,10 +54,10 @@ public class QuestionPage extends PageObject
 		}
 
 		List<Answer> results = 
-				answers.stream().map(QuestionAnswerComponent::getAnswer).collect(Collectors.toList());
+				answers.stream().map(QuestionAnswerComponent::getAnswer).filter(Answer::hasAnswer).collect(Collectors.toList());
 		return results;
 	}
-	
+
 	private void loadHiddenAnswers(final int maxAnswers)
 	{
 		while(hasHiddenAnswers() && maxAnswers > answers.size())

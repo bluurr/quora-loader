@@ -14,7 +14,7 @@ import com.github.webdriverextensions.WebComponent;
 /**
  * Sub component of each answer with Quora question page.
  * 
- * @author chris
+ * @author Bluurr
  *
  */
 public class QuestionAnswerComponent extends WebComponent
