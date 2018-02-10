@@ -13,10 +13,12 @@ import com.bluurr.quora.domain.LoginCredential;
  *
  */
 @Configuration
-public class IntegrationConfig {
+public class IntegrationConfig 
+{
 	@Bean
 	public LoginCredential createLogin(final @Value("${quora.login.username}") String username,
-			final @Value("${quora.login.password}") String password) {
+			final @Value("${quora.login.password}") String password) 
+	{
 		return new LoginCredential(username, password);
 	}
 
@@ -27,7 +29,7 @@ public class IntegrationConfig {
 		ChromeOptions options = new ChromeOptions();
 		options.setHeadless(headless);
 		/**
-		 * Quroa TOS require detail user agent and contact email.
+		 * Quroa TOS require the user agent to include a contact email.
 		 */
 		options.addArguments("--user-agent=quroa_loader;" + contactEmail + ";");
 		

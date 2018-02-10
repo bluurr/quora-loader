@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.bluurr.quora.domain.Answer;
+import com.bluurr.quora.domain.Answers;
 import com.bluurr.quora.domain.Question;
 import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.page.PageObject;
@@ -37,12 +38,12 @@ public class QuestionPage extends PageObject
 	@FindBy(className="spinner_display_area")
 	private WebElement loadingSpinner;
 
-	public Question getQuestion(final int maxAnswers) 
+	public Question getQuestion(final Answers answers) 
 	{
 		Question question = new Question();
 		question.setLocation(Bot.currentUrl());
 		question.setAsked(questionTitle.getText());
-		question.setAnswers(getAnswers(maxAnswers));
+		question.setAnswers(getAnswers(answers.getLimit()));
 		return question;
 	}
 	

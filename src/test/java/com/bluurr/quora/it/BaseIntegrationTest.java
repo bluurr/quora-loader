@@ -14,8 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
+import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.it.config.IntegrationConfig;
-import com.github.webdriverextensions.WebDriverExtensionsContext;
 
 /**
  * 
@@ -39,13 +39,14 @@ public abstract class BaseIntegrationTest
 	@Before
 	public void beforeTest()
 	{
-		WebDriverExtensionsContext.setDriver(new ChromeDriver(options));
+		ChromeDriver driver = new ChromeDriver(options);
+		driver.manage().deleteAllCookies();
+		BotExtra.setDriver(driver);
 	}
 	
 	@After
 	public void afterTest()
 	{
-		WebDriverExtensionsContext.getDriver().close();
-		WebDriverExtensionsContext.removeDriver();
+		BotExtra.closeDriver();
 	}
 }

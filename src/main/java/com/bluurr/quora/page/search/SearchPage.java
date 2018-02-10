@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,6 +30,11 @@ public class SearchPage extends PageObject
 	
 	public static SearchPage openDirect(final String term, final String type)
 	{
+		if(StringUtils.isBlank(term))
+		{
+			throw new IllegalArgumentException("Term must be non-blank.");
+		}
+		
 		WebDriver driver = Bot.driver();
 		try
 		{
@@ -62,11 +68,11 @@ public class SearchPage extends PageObject
 		return questions.size();
 	}
 		
-	public List<QuestionSummary> getQuestions(final int maxQuestions)
+	public List<QuestionSummary> getQuestions(final int limit)
 	{
-		if(questions.size() < maxQuestions)
+		if(questions.size() < limit)
 		{
-			loadHiddenQuestions(maxQuestions);
+			loadHiddenQuestions(limit);
 		}
 		
 		List<QuestionSummary> results = 

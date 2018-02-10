@@ -14,14 +14,14 @@ The library requires the following minimum versions
 You must have a Selenium supported browser and driver installed on the desired machine which can be found [here](http://www.seleniumhq.org/download).
 
 ###### Chrome
-The integration tests are configured currently to use the chrome Selenium driver which can be downloaded [here](https://sites.google.com/a/chromium.org/chromedriver/).
+The integration tests are configured currently to use the Chrome Selenium driver which can be downloaded [here](https://sites.google.com/a/chromium.org/chromedriver/).
 
-The following property is required with the location of the chrome driver `-Dwebdriver.chrome.driver={install_location/chromedriver.exe}`
+The following property is required with the location of the Chrome driver `-Dwebdriver.chrome.driver={install_location/chromedriver.exe}`
 
-The headless mode can be controlled for via `-Dwebdriver.headless=true|false`
+The headless mode can be controlled via `-Dwebdriver.headless={true|false}`
 
 ### Usage
-Below is an example of how to login, search and finally load back the question.
+Below is an example of how to login, search and load back a question.
 ```Java
 /** Set-up Chrome driver **/
 BotExtra.setDriver(new ChromeDriver());
@@ -39,7 +39,7 @@ List<QuestionSummary> questions = searchPage.getQuestions(10);
 
 /** Load a Question and up to 5 answers **/
 String location = questions.get(0).getLocation();
-Question fullQuestion = QuestionPage.open(location).getQuestion(5);
+Question fullQuestion = QuestionPage.open(location).getQuestion(Answers.limit(5));
 
 /** Clean up **/
 BotExtra.closeDriver();
