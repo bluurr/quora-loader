@@ -2,6 +2,7 @@
 
 A read-only locator and extraction library for Quora questions and answers.
 
+
 ## Getting Started
 This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time. The library uses the Selenium framework to retrieve the data from the Quora platform.
 
@@ -61,6 +62,17 @@ As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for mac
 
 ### Note
 The integration tests require the following property to be define `-Dquora.contact={contact_here}` to meet these requirements.
+
+## Maven
+To add a dependency on Quora loader using Maven, use the following:
+
+```xml
+<dependency>
+    <groupId>com.bluurr</groupId>
+    <artifactId>quora_loader</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ## License
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
