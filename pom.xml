@@ -26,7 +26,7 @@
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<project.lib.spring.version>4.3.14.RELEASE</project.lib.spring.version>
+		<project.lib.spring.version>5.0.6.RELEASE</project.lib.spring.version>
 	</properties>
 
 	<dependencies>
@@ -34,14 +34,14 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>3.8.1</version>
+			<version>3.12.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.github.webdriverextensions/webdriverextensions -->
 		<dependency>
 			<groupId>com.github.webdriverextensions</groupId>
 			<artifactId>webdriverextensions</artifactId>
-			<version>3.9.0</version>
+			<version>3.10.0</version>
 			<exclusions>
 				<!-- Moved to test scope. -->
 				<exclusion>
@@ -124,4 +124,12 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+	
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging-bluurr</id>
+			<name>Nexus Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 </project>
