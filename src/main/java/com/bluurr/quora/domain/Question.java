@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Question posted by a Quroa user.
+ * Question posted by a Quora user.
  * 
  * @author Bluurr
  *
@@ -14,11 +14,13 @@ public class Question
 	private String location;
 	private String asked;
 	private List<Answer> answers;
+	private List<RelatedQuestion> related;
 	
 	public Question()
 	{
 		super();
 		this.answers = new ArrayList<>();
+		this.related = new ArrayList<>();
 	}
 	
 	public String getLocation() 
@@ -51,9 +53,20 @@ public class Question
 		this.asked = asked;
 	}
 
+	public List<RelatedQuestion> getRelated() 
+	{
+		return related;
+	}
+
+	public void setRelated(final List<RelatedQuestion> related) 
+	{
+		this.related = related;
+	}
+
 	@Override
 	public String toString() 
 	{
-		return "Question [location=" + location + ", asked=" + asked + ", answers=" + answers + "]";
+		return "Question [location=" + location + ", asked=" + asked + ", answers=" + answers + ", related=" + related
+				+ "]";
 	}
 }

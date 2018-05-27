@@ -1,7 +1,7 @@
 package com.bluurr.quora.domain;
 
 /**
- * Holds login credential information for logging into the Quroa platform.
+ * Holds login credential information for logging into the Quora platform.
  * 
  * @author Bluurr
  *

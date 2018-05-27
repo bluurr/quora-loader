@@ -1,9 +1,10 @@
-# Quroa loader
+# Quora loader
 
-A read-only locator and extraction library for Quroa questions and answers.
+A read-only locator and extraction library for Quora questions and answers.
+
 
 ## Getting Started
-This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quroa platform at this current time. The library uses the Selenium framework to retrieve the data from the Quroa platform.
+This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time. The library uses the Selenium framework to retrieve the data from the Quora platform.
 
 ### Prerequisite
 The library requires the following minimum versions
@@ -26,12 +27,12 @@ Below is an example of how to login, search and load back a question.
 /** Set-up Chrome driver **/
 BotExtra.setDriver(new ChromeDriver());
 
-final String QUROA_LOCATION = "https://www.quora.com";
+final String QUORA_LOCATION = "https://www.quora.com";
 
-/** Login to the Quroa platform **/
-DashBoardPage dashboard = LoginPage.open(URI.create(QUROA_LOCATION)).login("{username}", "{password}");
+/** Login to the Quora platform **/
+DashBoardPage dashboard = LoginPage.open(URI.create(QUORA_LOCATION)).login("{username}", "{password}");
 
-/** Search the term Java on the Quroa platform **/
+/** Search the term Java on the Quora platform **/
 SearchPage searchPage = dashboard.search("Java");
 
 /** Load a summary of up to 10 questions. **/
@@ -52,7 +53,7 @@ To run the integration tests the following properties need to be set:
 
 ## Compliance
 
-As per the Quroa terms of service [TOS](https://www.quora.com/about/tos) for machine driven tools - 
+As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for machine driven tools - 
 
 1. You must use a descriptive user agent header.
 2. You must follow robots.txt at all times.
@@ -61,6 +62,17 @@ As per the Quroa terms of service [TOS](https://www.quora.com/about/tos) for mac
 
 ### Note
 The integration tests require the following property to be define `-Dquora.contact={contact_here}` to meet these requirements.
+
+## Maven
+To add a dependency on Quora loader using Maven, use the following:
+
+```xml
+<dependency>
+    <groupId>com.bluurr</groupId>
+    <artifactId>quora_loader</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ## License
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:

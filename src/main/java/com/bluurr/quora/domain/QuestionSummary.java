@@ -1,7 +1,7 @@
 package com.bluurr.quora.domain;
 
 /**
- * A summary of a question posted by a Quroa user.
+ * A summary of a question posted by a Quora user.
  * 
  * @author Bluurr
  *

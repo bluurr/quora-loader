@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.Splitter;
 
 /**
- * Answer posted by a Quroa user.
+ * Answer posted by a Quora user.
  * 
  * @author Bluurr
  *

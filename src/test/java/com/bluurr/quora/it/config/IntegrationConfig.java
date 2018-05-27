@@ -29,9 +29,9 @@ public class IntegrationConfig
 		ChromeOptions options = new ChromeOptions();
 		options.setHeadless(headless);
 		/**
-		 * Quroa TOS require the user agent to include a contact email.
+		 * Quora TOS require the user agent to include a contact email.
 		 */
-		options.addArguments("--user-agent=quroa_loader;" + contactEmail + ";");
+		options.addArguments("--user-agent=quora_loader;" + contactEmail + ";");
 		
 		return options;
 	}
