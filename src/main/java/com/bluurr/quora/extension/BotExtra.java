@@ -17,7 +17,16 @@ import com.github.webdriverextensions.WebDriverExtensionsContext;
  */
 public class BotExtra 
 {
-	private static final int DEFAULT_TIMEOUT_SECONDS = 4;
+	private static int getDefaultTimeout() {
+		String value = System.getenv("DEFAULT_BOT_TIMEOUT");
+		if(value != null && !value.isEmpty()) {
+			return Integer.valueOf(value);
+		}
+		/** Default is four seconds */
+		return 4;
+	}
+	
+	private static final int DEFAULT_TIMEOUT_SECONDS = getDefaultTimeout();
 	private static final int DEFAULT_WAIT_MILLISECOND = 250;
 	
     public static void setDriver(final WebDriver driver) 
