@@ -6,13 +6,11 @@ import javax.annotation.Resource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Rule;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.rules.SpringClassRule;
-import org.springframework.test.context.junit4.rules.SpringMethodRule;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.BrowserWebDriverContainer;
 
 import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.it.config.IntegrationConfig;
@@ -22,26 +20,21 @@ import com.bluurr.quora.it.config.IntegrationConfig;
  * @author Bluurr
  *
  */
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes=IntegrationConfig.class)
 public abstract class BaseIntegrationTest 
 {
 	public static final URI QUORA_HOST = URI.create("https://www.quora.com");
 	
-	@ClassRule
-	public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
-	
-	@Rule
-	public final SpringMethodRule springMethodRule = new SpringMethodRule();
-	
 	@Resource
-	private ChromeOptions options;
+	@Rule
+	public BrowserWebDriverContainer<?> driverContainer;
 	
 	@Before
 	public void beforeTest()
 	{
-		ChromeDriver driver = new ChromeDriver(options);
-		driver.manage().deleteAllCookies();
-		BotExtra.setDriver(driver);
+		driverContainer.getWebDriver().manage().deleteAllCookies();
+		BotExtra.setDriver(driverContainer.getWebDriver());
 	}
 	
 	@After

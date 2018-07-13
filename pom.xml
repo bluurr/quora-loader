@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bluurr</groupId>
 	<artifactId>quora_loader</artifactId>
-	<version>1.0.0</version>
+	<version>1.2.0</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A realtime read-only locator and extraction library for Quora questions and answers.</description>
 	<url>https://github.com/bluurr/QuoraLoader/</url>
@@ -22,11 +22,11 @@
 		<developerConnection>scm:git:ssh://github.com:bluurr/QuoraLoader.git</developerConnection>
 		<url>https://github.com/bluurr/QuoraLoader/tree/master</url>
 	</scm>
-	
+
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<project.lib.spring.version>4.3.14.RELEASE</project.lib.spring.version>
+		<project.lib.spring.version>5.0.7.RELEASE</project.lib.spring.version>
 	</properties>
 
 	<dependencies>
@@ -34,14 +34,14 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>3.8.1</version>
+			<version>3.13.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.github.webdriverextensions/webdriverextensions -->
 		<dependency>
 			<groupId>com.github.webdriverextensions</groupId>
 			<artifactId>webdriverextensions</artifactId>
-			<version>3.9.0</version>
+			<version>3.10.0</version>
 			<exclusions>
 				<!-- Moved to test scope. -->
 				<exclusion>
@@ -58,17 +58,19 @@
 					<groupId>org.seleniumhq.selenium</groupId>
 					<artifactId>htmlunit-driver</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>com.codeborne</groupId>
+					<artifactId>phantomjsdriver</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -76,7 +78,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -84,19 +85,24 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.2.0</version>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-junit -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-junit</artifactId>
 			<version>2.0.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>selenium</artifactId>
+			<version>1.8.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

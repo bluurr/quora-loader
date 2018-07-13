@@ -19,7 +19,7 @@ import com.github.webdriverextensions.WebComponent;
  */
 public class QuestionAnswerComponent extends WebComponent
 {
-	@FindBy(className="ui_qtext_para")
+	@FindBy(xpath=".//*[@class='ui_qtext_para']")
 	private List<WebElement> messages;
 	
 	@FindBy(className="ui_qtext_expanded")

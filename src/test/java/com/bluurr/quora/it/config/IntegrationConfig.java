@@ -1,9 +1,14 @@
 package com.bluurr.quora.it.config;
 
+import java.io.File;
+
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.containers.BrowserWebDriverContainer.VncRecordingMode;
 
 import com.bluurr.quora.domain.LoginCredential;
 
@@ -34,5 +39,20 @@ public class IntegrationConfig
 		options.addArguments("--user-agent=quora_loader;" + contactEmail + ";");
 		
 		return options;
+	}
+	
+	@SuppressWarnings("resource")
+	@Bean
+	public BrowserWebDriverContainer<?> createDriverContainer(final ChromeOptions options, final @Value("${container.record:false}")  boolean record) {
+		BrowserWebDriverContainer<?> container = new BrowserWebDriverContainer<>().
+				withDesiredCapabilities(new DesiredCapabilities(options));
+		
+		if(record) {
+			container = container.withRecordingMode(VncRecordingMode.RECORD_ALL, new File("./"));
+		} else
+		{
+			container.withRecordingMode(VncRecordingMode.SKIP, null);
+		}
+		return container;
 	}
 }

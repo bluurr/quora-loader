@@ -18,7 +18,7 @@ import com.github.webdriverextensions.WebComponent;
 public class SearchQuestionComponent extends WebComponent
 {
 	@FindAll({
-		@FindBy(xpath = ".//*[@class='question_text']/span[@class='rendered_qtext']"),	
+		@FindBy(xpath = ".//*[contains(@class, 'ui_story_title')]/span[@class='ui_qtext_rendered_qtext']"),	
 		@FindBy(xpath = ".//*[contains(@class, 'TopicNameSpan')]/span[@class='rendered_qtext']"),	
 		@FindBy(xpath = ".//*[contains(@class, 'BoardItemTitle')]/span[@class='rendered_qtext']")
 	})

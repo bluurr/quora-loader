@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.bluurr.quora.domain.Answer;
@@ -31,10 +32,13 @@ public class QuestionPage extends PageObject
 		return page;
 	}
 	
-	@FindBy(xpath="//*[@class='QuestionArea']//span[@class='rendered_qtext']")
+	@FindAll({
+		@FindBy(xpath="//*[contains(@class, 'QuestionArea')]//span[@class='rendered_qtext']"),
+		@FindBy(xpath="//*[contains(@class, 'QuestionArea')]//span[@class='ui_qtext_rendered_qtext']")
+	})
 	private WebElement questionTitle;
 
-	@FindBy(xpath="//div[@class='AnswerListDiv']//div[@class='pagedlist_item']")
+	@FindBy(xpath="//div[@class='paged_list_wrapper']//div[@class='pagedlist_item']")
 	private List<QuestionAnswerComponent> answers;
 
 	@FindBy(xpath="//div[contains(@class, 'QuestionMain')]//*[@class='question_link']")
@@ -72,7 +76,7 @@ public class QuestionPage extends PageObject
 		for(WebElement element : related)
 		{
 			String location = element.getAttribute("href");
-			WebElement name = element.findElement(By.className("rendered_qtext"));
+			WebElement name = element.findElement(By.className("ui_qtext_rendered_qtext"));
 			
 			if(name != null)
 			{
