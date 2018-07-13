@@ -2,6 +2,8 @@
 
 A read-only locator and extraction library for Quora questions and answers.
 
+[![Build Status](https://travis-ci.com/bluurr/QuoraLoader.svg?branch=master)](https://travis-ci.com/bluurr/QuoraLoader)
+
 
 ## Getting Started
 This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time. The library uses the Selenium framework to retrieve the data from the Quora platform.
