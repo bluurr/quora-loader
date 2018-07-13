@@ -33,12 +33,12 @@ public class QuestionPage extends PageObject
 	}
 	
 	@FindAll({
-		@FindBy(xpath="//*[@class='QuestionArea']//span[@class='rendered_qtext']"),
-		@FindBy(xpath="//*[@class='QuestionArea']//span[@class='ui_qtext_rendered_qtext']")
+		@FindBy(xpath="//*[contains(@class, 'QuestionArea')]//span[@class='rendered_qtext']"),
+		@FindBy(xpath="//*[contains(@class, 'QuestionArea')]//span[@class='ui_qtext_rendered_qtext']")
 	})
 	private WebElement questionTitle;
 
-	@FindBy(xpath="//div[@class='AnswerListDiv']//div[@class='pagedlist_item']")
+	@FindBy(xpath="//div[@class='paged_list_wrapper']//div[@class='pagedlist_item']")
 	private List<QuestionAnswerComponent> answers;
 
 	@FindBy(xpath="//div[contains(@class, 'QuestionMain')]//*[@class='question_link']")
