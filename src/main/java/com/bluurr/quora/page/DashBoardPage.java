@@ -26,7 +26,7 @@ public class DashBoardPage extends PageObject
 	
 	private static final int MAX_WAIT_SECONDS = 3;
 	
-	@FindBy(xpath="//textarea[contains(@class, 'selector_input') and @placeholder = 'Search Quora']")
+	@FindBy(xpath="//*[contains(@class, 'selector_input') and @placeholder = 'Search Quora']")
 	private WebElement searchBar;
 	
 	@FindBy(className="lookup_bar_modal_overlay")

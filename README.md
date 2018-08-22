@@ -2,6 +2,8 @@
 
 A read-only locator and extraction library for Quora questions and answers.
 
+[![Build Status](https://travis-ci.com/bluurr/QuoraLoader.svg?branch=master)](https://travis-ci.com/bluurr/QuoraLoader)
+
 
 ## Getting Started
 This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time. The library uses the Selenium framework to retrieve the data from the Quora platform.
@@ -10,16 +12,14 @@ This library allows you to login, search and retrieve answers for a question. As
 The library requires the following minimum versions
 1. Java 8
 2. Maven 3 or higher
+3. Docker (For Testing Only)
 
 #### Selenium
-You must have a Selenium supported browser and driver installed on the desired machine which can be found [here](http://www.seleniumhq.org/download).
 
-###### Chrome
-The integration tests are configured currently to use the Chrome Selenium driver which can be downloaded [here](https://sites.google.com/a/chromium.org/chromedriver/).
+Selenium testing is performed within Docker using the Chrome Selenium image. 
 
-The following property is required with the location of the Chrome driver `-Dwebdriver.chrome.driver={install_location/chromedriver.exe}`
-
-The headless mode can be controlled via `-Dwebdriver.headless={true|false}`
+To enable headless mode: `-Dwebdriver.headless={true|false}`
+To enable recording output: `-Dcontainer.record={true|false}`
 
 ### Usage
 Below is an example of how to login, search and load back a question.
@@ -47,9 +47,8 @@ BotExtra.closeDriver();
 ```
 ### Tests
 To run the integration tests the following properties need to be set:
-1. `-Dwebdriver.chrome.driver={install_location/chromedriver.exe}`
-2. `-Dquora.login.username={username}`
-3. `-Dquora.login.password={password}`
+1. `-Dquora.login.username={username}`
+2. `-Dquora.login.password={password}`
 
 ## Compliance
 
@@ -70,7 +69,7 @@ To add a dependency on Quora loader using Maven, use the following:
 <dependency>
     <groupId>com.bluurr</groupId>
     <artifactId>quora_loader</artifactId>
-    <version>1.1.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
