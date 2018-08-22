@@ -135,7 +135,6 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 	<distributionManagement>
 		<repository>
 			<id>sonatype-nexus-staging-bluurr</id>
