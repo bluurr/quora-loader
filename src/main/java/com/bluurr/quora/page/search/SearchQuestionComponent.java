@@ -15,10 +15,9 @@ import com.github.webdriverextensions.WebComponent;
  * @author Bluurr
  *
  */
-public class SearchQuestionComponent extends WebComponent
-{
+public class SearchQuestionComponent extends WebComponent {
 	@FindAll({
-		@FindBy(xpath = ".//*[contains(@class, 'ui_story_title')]/span[@class='ui_qtext_rendered_qtext']"),	
+		@FindBy(xpath = ".//*[contains(@class, 'ui_content_title')]/span[@class='ui_qtext_rendered_qtext']"),
 		@FindBy(xpath = ".//*[contains(@class, 'TopicNameSpan')]/span[@class='rendered_qtext']"),	
 		@FindBy(xpath = ".//*[contains(@class, 'BoardItemTitle')]/span[@class='rendered_qtext']")
 	})
@@ -35,14 +34,8 @@ public class SearchQuestionComponent extends WebComponent
 	
 	@FindBy(xpath=".//div[@class='answer_total']/span[@class='ans_count']")
 	private List<WebElement> totalAnswers;
-	
-	public SearchQuestionComponent()
-	{
-		super();
-	}
-	
-	public QuestionSummary getSummary()
-	{
+
+	public QuestionSummary getSummary() {
 		QuestionSummary summary = new QuestionSummary();
 		summary.setId(getAttribute("id"));
 		summary.setQuestion(question.getText());
@@ -51,19 +44,15 @@ public class SearchQuestionComponent extends WebComponent
 		return summary;
 	}
 
-	private int getAnswerTotal() 
-	{
-		if(!totalAnswers.isEmpty())
-		{
+	private int getAnswerTotal() {
+		if(!totalAnswers.isEmpty()) {
 			String answerCount = totalAnswers.get(0).getText();
 			
-			if(answerCount != null)
-			{
-				/** Example format:  Answer 1 of 1,229 */
+			if(answerCount != null) {
+				/* Example format:  Answer 1 of 1,229 */
 				int last = answerCount.lastIndexOf("of");
 				
-				if(last != -1)
-				{
+				if(last != -1) {
 					String totalAnswer = 
 							answerCount.substring(last).replaceAll("[^0-9]", "");
 					return Integer.parseInt(totalAnswer);

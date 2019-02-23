@@ -17,14 +17,12 @@ import com.bluurr.quora.page.LoginPage;
  * @author Bluurr
  *
  */
-public class LoginPageIT extends BaseIntegrationTest
-{
+public class LoginPageIT extends BaseIntegrationTest {
 	@Resource
 	private LoginCredential credential;
 	
 	@Test
-	public void testValidLogin()
-	{
+	public void testValidLogin() {
 		assertThat(LoginPage.isLoggedIn(), is(false));
 		
 		LoginPage.open(QUORA_HOST).login(credential);
@@ -33,8 +31,7 @@ public class LoginPageIT extends BaseIntegrationTest
 	}
 	
 	@Test(expected=InvalidLoginException.class)
-	public void testInvalidLogin()
-	{
+	public void testInvalidLogin() {
 		assertThat(LoginPage.isLoggedIn(), is(false));
 		
 		LoginPage.open(QUORA_HOST).login(createInvalidLogin());
@@ -42,8 +39,7 @@ public class LoginPageIT extends BaseIntegrationTest
 		assertThat(LoginPage.isLoggedIn(), is(false));
 	}
 	
-	private LoginCredential createInvalidLogin()
-	{
+	private LoginCredential createInvalidLogin() {
 		return new LoginCredential("hyedjdfhudfhuu45y45", "ghdfhdfhyuhdfyhyudf");
 	}
 }

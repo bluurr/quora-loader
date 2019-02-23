@@ -1,14 +1,5 @@
 package com.bluurr.quora.page.question;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-
 import com.bluurr.quora.domain.Answer;
 import com.bluurr.quora.domain.Answers;
 import com.bluurr.quora.domain.Question;
@@ -16,6 +7,14 @@ import com.bluurr.quora.domain.RelatedQuestion;
 import com.bluurr.quora.extension.BotExtra;
 import com.bluurr.quora.page.PageObject;
 import com.github.webdriverextensions.Bot;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Question page for Quora once logged in.
@@ -23,10 +22,8 @@ import com.github.webdriverextensions.Bot;
  * @author Bluurr
  *
  */
-public class QuestionPage extends PageObject
-{
-	public static QuestionPage open(final String location)
-	{
+public class QuestionPage extends PageObject {
+	public static QuestionPage open(final String location) {
 		QuestionPage page = new QuestionPage();
 		Bot.driver().navigate().to(location);
 		return page;
@@ -47,8 +44,7 @@ public class QuestionPage extends PageObject
 	@FindBy(className="spinner_display_area")
 	private WebElement loadingSpinner;
 
-	public Question getQuestion(final Answers answers) 
-	{
+	public Question getQuestion(final Answers answers) {
 		Question question = new Question();
 		question.setLocation(Bot.currentUrl());
 		question.setAsked(questionTitle.getText());
@@ -57,10 +53,8 @@ public class QuestionPage extends PageObject
 		return question;
 	}
 
-	private List<Answer> getAnswers(final int maxAnswers)
-	{
-		if(answers.size() < maxAnswers)
-		{
+	private List<Answer> getAnswers(final int maxAnswers) {
+		if(answers.size() < maxAnswers) {
 			loadHiddenAnswers(maxAnswers);
 		}
 
@@ -69,17 +63,14 @@ public class QuestionPage extends PageObject
 		return results;
 	}
 	
-	private List<RelatedQuestion> getRelated()
-	{
+	private List<RelatedQuestion> getRelated() {
 		List<RelatedQuestion> result = new ArrayList<>(related.size());
 		
-		for(WebElement element : related)
-		{
+		for(WebElement element : related) {
 			String location = element.getAttribute("href");
 			WebElement name = element.findElement(By.className("ui_qtext_rendered_qtext"));
 			
-			if(name != null)
-			{
+			if(name != null) {
 				RelatedQuestion question = new RelatedQuestion();
 				question.setLocation(location);
 				question.setQuestion(name.getText());
@@ -90,29 +81,24 @@ public class QuestionPage extends PageObject
 		return result;
 	}
 
-	private void loadHiddenAnswers(final int maxAnswers)
-	{
-		while(hasHiddenAnswers() && maxAnswers > answers.size())
-		{
+	private void loadHiddenAnswers(final int maxAnswers) {
+		while(hasHiddenAnswers() && maxAnswers > answers.size()) {
 			int currentSize = answers.size();
 			triggerAnswerLoad(currentSize);
-			/**
+			/*
 			 * No more record were loaded.
 			 */
-			if(currentSize >= answers.size())
-			{
+			if(currentSize >= answers.size()) {
 				break;
 			}
 		}
 	}
 
-	private boolean hasHiddenAnswers()
-	{
+	private boolean hasHiddenAnswers() {
 		return !Bot.hasClass("hidden", loadingSpinner);
 	}
 	
-	private void triggerAnswerLoad(final int offset)
-	{
+	private void triggerAnswerLoad(final int offset) {
 		BotExtra.scrollToPageBottom();
 		BotExtra.waitForNumberOfElementsToBeMoreThan(offset, answers);
 	}

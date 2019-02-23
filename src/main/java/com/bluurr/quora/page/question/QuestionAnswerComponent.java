@@ -17,8 +17,7 @@ import com.github.webdriverextensions.WebComponent;
  * @author Bluurr
  *
  */
-public class QuestionAnswerComponent extends WebComponent
-{
+public class QuestionAnswerComponent extends WebComponent {
 	@FindBy(xpath=".//*[@class='ui_qtext_para']")
 	private List<WebElement> messages;
 	
@@ -27,18 +26,11 @@ public class QuestionAnswerComponent extends WebComponent
 	
 	@FindBy(xpath=".//a[@class='user']")
 	private List<WebElement> user;
-	
-	public QuestionAnswerComponent() 
-	{
-		super();
-	}
-	
-	public Answer getAnswer()
-	{
+
+	public Answer getAnswer() {
 		List<String> results = toMessagesText(messages);
 
-		if(results.isEmpty())
-		{
+		if(results.isEmpty()) {
 			results = toMessagesText(extendedMessages);
 		}
 		
@@ -48,13 +40,11 @@ public class QuestionAnswerComponent extends WebComponent
 		return answer;
 	}
 	
-	private @Nullable String getUsername()
-	{
+	private @Nullable String getUsername() {
 		return !user.isEmpty() ? user.get(0).getText() : null;
 	}
 	
-	private List<String> toMessagesText(final List<WebElement> messages)
-	{
+	private List<String> toMessagesText(final List<WebElement> messages) {
 		return messages.stream().map(WebElement::getText).collect(Collectors.toList());
 	}
 }

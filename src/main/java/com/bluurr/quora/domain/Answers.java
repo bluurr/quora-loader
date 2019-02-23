@@ -1,34 +1,17 @@
 package com.bluurr.quora.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * 
  * @author Bluurr
  *
  */
-public class Answers 
-{
-	public static Answers limit(final int limit)
-	{
-		Answers answers = new Answers();
-		answers.setLimit(limit);
-		return answers;
-	}
-
+@AllArgsConstructor(staticName = "limit")
+@NoArgsConstructor
+@Data
+public class Answers {
 	private int limit;
-
-	public int getLimit() 
-	{
-		return limit;
-	}
-
-	public void setLimit(final int limit) 
-	{
-		this.limit = limit;
-	}
-
-	@Override
-	public String toString() 
-	{
-		return "Answers [limit=" + limit + "]";
-	}
 }

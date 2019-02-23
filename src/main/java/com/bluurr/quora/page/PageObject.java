@@ -11,14 +11,11 @@ import com.github.webdriverextensions.WebDriverExtensionFieldDecorator;
  * @author Bluurr
  *
  */
-public abstract class PageObject
-{
-	public PageObject()
-	{ 
+public abstract class PageObject {
+	public PageObject() {
 		PageFactory.initElements(new WebDriverExtensionFieldDecorator(Bot.driver()), this); 
 	}
 	
-	protected void waitForLoaded()
-	{
+	protected void waitForLoaded() {
 	}
 }
