@@ -19,16 +19,13 @@ import com.github.webdriverextensions.Bot;
  * @author Bluurr
  *
  */
-public class LoginPage extends PageObject
-{
-	public static boolean isLoggedIn()
-	{
+public class LoginPage extends PageObject {
+	public static boolean isLoggedIn() {
 		WebElement body = Bot.driver().findElement(By.tagName("body"));
 		
 		boolean loggedIn = Bot.hasNotClass("logged_out", body);
 		
-		if(loggedIn)
-		{
+		if(loggedIn) {
 			/** Ensure that we have a valid Quora web page loaded */
 			loggedIn = Bot.hasClass("web_page", body);
 		}
@@ -36,13 +33,10 @@ public class LoginPage extends PageObject
 		return loggedIn;
 	}
 	
-	public static LoginPage open(final URI location)
-	{
-		try 
-		{
+	public static LoginPage open(final URI location) {
+		try {
 			Bot.driver().navigate().to(location.toURL());
-		} catch (final MalformedURLException err) 
-		{
+		} catch (final MalformedURLException err) {
 			throw new IllegalStateException("Unable to load login page", err);
 		}
 		
@@ -64,8 +58,7 @@ public class LoginPage extends PageObject
 	@FindBy(xpath="//*[@class='regular_login']//*[@class='input_validation_error_text']")
 	private List<WebElement> validationErrors;
 	
-	public DashBoardPage login(final LoginCredential credential)
-	{
+	public DashBoardPage login(final LoginCredential credential) {
 		username.clear();
 		username.sendKeys(credential.getUsername());
 
@@ -78,20 +71,16 @@ public class LoginPage extends PageObject
 		return DashBoardPage.open();
 	}
 	
-	private void waitForLogin()
-	{
+	private void waitForLogin() {
 		BotExtra.waitForOneDisplay(loginHeader, validationErrors);
 
-		if(!isLoggedIn())
-		{
+		if(!isLoggedIn()) {
 			throw new InvalidLoginException(validationMessages());
 		}
 	}	
 	
-	private String validationMessages()
-	{
-		if(!validationErrors.isEmpty())
-		{
+	private String validationMessages() {
+		if(!validationErrors.isEmpty()) {
 			String message = 
 					validationErrors.stream().map(WebElement::getText).collect(Collectors.joining(", "));
 			

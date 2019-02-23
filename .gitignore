@@ -68,3 +68,7 @@ nbproject/private/
 ############
 .idea
 webdriverextensions.iml
+*.iml
+
+# Other
+*.flv

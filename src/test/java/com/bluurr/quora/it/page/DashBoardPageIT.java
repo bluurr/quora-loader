@@ -20,8 +20,7 @@ import com.bluurr.quora.page.search.SearchPage;
  * @author Bluurr
  *
  */
-public class DashBoardPageIT extends BaseIntegrationTest
-{
+public class DashBoardPageIT extends BaseIntegrationTest {
 	/**
 	 * Likely to always return topics.
 	 */
@@ -31,22 +30,19 @@ public class DashBoardPageIT extends BaseIntegrationTest
 	private LoginCredential credential;
 	
 	@Before
-	public void before()
-	{
+	public void before() {
 		LoginPage.open(QUORA_HOST).login(credential);
 	}
 	
 	@Test
-	public void performSearch()
-	{
+	public void performSearch() {
 		DashBoardPage dashboard = DashBoardPage.open();
 		SearchPage page = dashboard.search(SEARCH_TERM);
 		assertThat(page, is(notNullValue()));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void performInvalidSearch()
-	{
+	public void performInvalidSearch() {
 		DashBoardPage dashboard = DashBoardPage.open();
 		dashboard.search("");
 	}

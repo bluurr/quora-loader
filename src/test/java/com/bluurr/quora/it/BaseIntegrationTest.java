@@ -22,8 +22,7 @@ import com.bluurr.quora.it.config.IntegrationConfig;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes=IntegrationConfig.class)
-public abstract class BaseIntegrationTest 
-{
+public abstract class BaseIntegrationTest {
 	public static final URI QUORA_HOST = URI.create("https://www.quora.com");
 	
 	@Resource
@@ -31,15 +30,13 @@ public abstract class BaseIntegrationTest
 	public BrowserWebDriverContainer<?> driverContainer;
 	
 	@Before
-	public void beforeTest()
-	{
+	public void beforeTest() {
 		driverContainer.getWebDriver().manage().deleteAllCookies();
 		BotExtra.setDriver(driverContainer.getWebDriver());
 	}
 	
 	@After
-	public void afterTest()
-	{
+	public void afterTest() {
 		BotExtra.closeDriver();
 	}
 }

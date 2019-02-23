@@ -22,8 +22,7 @@ import com.bluurr.quora.page.search.SearchPage;
  * @author Bluurr
  *
  */
-public class SearchPageIT extends BaseIntegrationTest
-{
+public class SearchPageIT extends BaseIntegrationTest {
 	/**
 	 * Likely to always return topics.
 	 */
@@ -34,14 +33,12 @@ public class SearchPageIT extends BaseIntegrationTest
 	private LoginCredential credential;
 	
 	@Before
-	public void before()
-	{
+	public void before() {
 		LoginPage.open(QUORA_HOST).login(credential);
 	}
 
 	@Test
-	public void performSearch()
-	{
+	public void performSearch() {
 		SearchPage page = SearchPage.openDirect(SEARCH_TERM, SEARCH_TYPE);
 		assertThat(page, notNullValue());
 		
@@ -51,8 +48,7 @@ public class SearchPageIT extends BaseIntegrationTest
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void performInvalidSearch()
-	{
+	public void performInvalidSearch() {
 		SearchPage.openDirect("", SEARCH_TYPE);
 	}
 }
