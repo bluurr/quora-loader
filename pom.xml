@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bluurr</groupId>
 	<artifactId>quora_loader</artifactId>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A realtime read-only locator and extraction library for Quora questions and answers.</description>
 	<url>https://github.com/bluurr/QuoraLoader/</url>
