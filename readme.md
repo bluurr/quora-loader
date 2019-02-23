@@ -56,7 +56,7 @@ As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for mac
 
 1. You must use a descriptive user agent header.
 2. You must follow robots.txt at all times.
-3. Your access must not adversely affect any aspect of the Quora Platformï¿½s functioning.
+3. Your access must not adversely affect any aspect of the Quora Platform’s functioning.
 4. You must make it clear how to contact you, either in your user agent string, or on your website if you have one.
 
 ### Note
@@ -69,7 +69,7 @@ To add a dependency on Quora loader using Maven, use the following:
 <dependency>
     <groupId>com.bluurr</groupId>
     <artifactId>quora_loader</artifactId>
-    <version>1.4.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
