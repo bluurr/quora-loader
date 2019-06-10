@@ -23,15 +23,14 @@ import java.net.URI;
 @Testcontainers
 @ContextConfiguration(classes=IntegrationConfig.class)
 public abstract class BaseIntegrationTest {
-	public static final URI QUORA_HOST = URI.create("https://www.quora.com");
+	protected static final URI QUORA_HOST = URI.create("https://www.quora.com");
 
 	@Resource
 	@Container
 	private BrowserWebDriverContainer<?> driverContainer;
-	
+
 	@BeforeEach
 	public void beforeTest() {
-		driverContainer.getWebDriver().manage().deleteAllCookies();
 		BotExtra.setDriver(driverContainer.getWebDriver());
 	}
 	
