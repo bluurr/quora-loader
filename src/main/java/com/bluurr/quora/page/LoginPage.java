@@ -57,8 +57,8 @@ public class LoginPage extends PageObject
 	
 	@FindBy(xpath="//input[contains(@class, 'submit_button') and @value = 'Login']")
 	private WebElement submitButton;
-	
-	@FindBy(className="LoggedInSiteHeader")
+
+	@FindBy(xpath="//*[contains(@class, 'LoggedInSiteHeader')]")
 	private List<WebElement> loginHeader;
 	
 	@FindBy(xpath="//*[@class='regular_login']//*[@class='input_validation_error_text']")
