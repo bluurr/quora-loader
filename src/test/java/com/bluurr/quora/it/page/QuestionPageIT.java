@@ -24,8 +24,7 @@ import com.bluurr.quora.page.search.SearchPage;
  * @author Bluurr
  *
  */
-public class QuestionPageIT extends BaseIntegrationTest
-{
+public class QuestionPageIT extends BaseIntegrationTest {
 	/**
 	 * Likely to always return topics.
 	 */
@@ -37,18 +36,15 @@ public class QuestionPageIT extends BaseIntegrationTest
 	private QuestionSummary summary;
 	
 	@Before
-	public void before()
-	{
+	public void before() {
 		SearchPage page = LoginPage.open(QUORA_HOST).login(credential).search(SEARCH_TERM);
 		summary = page.getQuestions(1).get(0);
 	}
 
 	@Test
-	public void loadQuestion()
-	{
+	public void loadQuestion() {
 		QuestionPage page = QuestionPage.open(summary.getLocation());
 		assertThat(page, notNullValue());
-		
 		Question question = page.getQuestion(Answers.limit(5));
 		assertThat(question, notNullValue());
 		assertThat(question.getAnswers(), notNullValue());

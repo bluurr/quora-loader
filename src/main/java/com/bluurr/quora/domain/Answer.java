@@ -1,9 +1,10 @@
 package com.bluurr.quora.domain;
 
+import com.google.common.base.Splitter;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Splitter;
 
 /**
  * Answer posted by a Quora user.
@@ -11,37 +12,11 @@ import com.google.common.base.Splitter;
  * @author Bluurr
  *
  */
-public class Answer 
-{
+@Data
+public class Answer {
 	private String username;
-	private List<String> comments;
-	
-	public Answer()
-	{
-		super();
-		this.comments = new ArrayList<>();
-	}
-	
-	public String getUsername() 
-	{
-		return username;
-	}
-	
-	public void setUsername(final String username) 
-	{
-		this.username = username;
-	}
-	
-	public List<String> getComments()
-	{
-		return comments;
-	}
-	
-	public void setComments(final List<String> comments) 
-	{
-		this.comments = comments;
-	}
-	
+	private List<String> comments = new ArrayList<>();
+
 	/**
 	 * Gets all comments for the answer, any comments larger than the maxLength will be split.
 	 * @param maxLength
@@ -49,14 +24,11 @@ public class Answer
 	 * @return
 	 * A list of all comment, with no comment greater than the maxLength.
 	 */
-	public List<String> getSplitComments(final int maxLength)
-	{
+	public List<String> getSplitComments(final int maxLength) {
 		final List<String> result = new ArrayList<>();
 		
-		for(String message : comments)
-		{
-			if(message.length() > maxLength)
-			{
+		for(String message : comments) {
+			if(message.length() > maxLength) {
 				result.addAll(Splitter.fixedLength(maxLength).splitToList(message));
 			} else
 			{
@@ -68,14 +40,7 @@ public class Answer
 	}
 	
 
-	public boolean hasAnswer() 
-	{
+	public boolean hasAnswer() {
 		return !getComments().isEmpty();
-	}
-	
-	@Override
-	public String toString() 
-	{
-		return "Answer [username=" + username + ", comments=" + comments + "]";
 	}
 }
