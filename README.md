@@ -6,7 +6,7 @@ A read-only locator and extraction library for Quora questions and answers.
 
 
 ## Getting Started
-This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time. The library uses the Selenium framework to retrieve the data from the Quora platform.
+This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora platform at this current time, the library uses the Selenium framework to retrieve the data from the Quora platform.
 
 ### Prerequisite
 The library requires the following minimum versions
