@@ -21,7 +21,7 @@ public class DashBoardPage extends PageObject {
 		return dashboard;
 	}
 	
-	private static final int MAX_WAIT_SECONDS = 3;
+	private static final int MAX_WAIT_SECONDS = 10;
 	
 	@FindBy(xpath="//*[contains(@class, 'selector_input') and @placeholder = 'Search Quora']")
 	private WebElement searchBar;
