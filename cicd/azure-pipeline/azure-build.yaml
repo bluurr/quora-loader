@@ -1,5 +1,9 @@
 pool:
   vmImage: 'ubuntu-16.04'
+
+variables:
+  - group: ci_quora_details
+
 steps:
   ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
   - task: Maven@3
