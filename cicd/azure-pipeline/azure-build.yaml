@@ -1,0 +1,20 @@
+pool:
+  vmImage: 'ubuntu-16.04'
+steps:
+  ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+  - task: Maven@3
+    displayName: 'Verify build (Maven)'
+    inputs:
+      goals: verify source:jar javadoc:jar
+      jdkVersionOption: '1.8'
+      testResultsFiles: '**/TEST-*.xml'
+
+  - task: CopyFiles@2
+    displayName: 'Copy jar to staging directory.'
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/target'
+      contents: '*.jar'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
+
+  - publish: '$(Build.ArtifactStagingDirectory)/target/'
+    artifact: build

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bluurr</groupId>
 	<artifactId>quora_loader</artifactId>
-	<version>1.5.0</version>
+	<version>1.6.0</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A realtime read-only locator and extraction library for Quora questions and answers.</description>
 	<url>https://github.com/bluurr/QuoraLoader/</url>
@@ -31,8 +31,8 @@
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<project.lib.spring.version>5.1.7.RELEASE</project.lib.spring.version>
-		<project.lombok.version>1.18.8</project.lombok.version>
+		<project.lib.spring.version>5.2.4.RELEASE</project.lib.spring.version>
+		<project.lombok.version>1.18.12</project.lombok.version>
 	</properties>
 
 	<dependencies>
@@ -53,13 +53,13 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.12</version>
+			<version>1.14</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.webdriverextensions</groupId>
 			<artifactId>webdriverextensions</artifactId>
-			<version>3.11.0</version>
+			<version>3.11.2</version>
 			<exclusions>
 				<!-- Moved to test scope. -->
 				<exclusion>
@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.26</version>
+			<version>1.7.30</version>
 		</dependency>
 
 		<dependency>
@@ -106,35 +106,35 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.4.2</version>
+			<version>5.6.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.4.2</version>
+			<version>5.6.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
-			<version>2.1</version>
+			<version>2.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>selenium</artifactId>
-			<version>1.11.3</version>
+			<version>1.13.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>1.11.3</version>
+			<version>1.13.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
