@@ -1,6 +1,22 @@
 pool:
   vmImage: 'ubuntu-16.04'
 
+trigger:
+  branches:
+    include:
+    - master
+
+pr:
+- master
+
+schedules:
+- cron: "0 10 * * *"
+  displayName: Daily Build
+  always: true
+  branches:
+    include:
+    - master
+
 variables:
   - group: ci_quora_details
   - name: MAVEN_CACHE_FOLDER
