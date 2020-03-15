@@ -3,8 +3,21 @@ pool:
 
 variables:
   - group: ci_quora_details
+  - name: MAVEN_CACHE_FOLDER
+    value: $(Pipeline.Workspace)/.m2/repository
+  - name: MAVEN_OPTS
+    value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 steps:
+  - task: Cache@2
+    inputs:
+      key: 'maven | "$(Agent.OS)" | **/pom.xml'
+      restoreKeys: |
+        maven | "$(Agent.OS)"
+        maven
+      path: $(MAVEN_CACHE_FOLDER)
+    displayName: Cache Maven local repo
+
   ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
   - task: Maven@3
     displayName: 'Verify build (Maven)'
