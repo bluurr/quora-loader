@@ -12,6 +12,10 @@ steps:
       goals: verify source:jar javadoc:jar
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
+    env:
+        QUORA_CONTACT: $(quora.contact)
+        QUORA_LOGIN_USERNAME: $(quora.login.username)
+        QUORA_LOGIN_PASSWORD: $(quora.login.password)
 
   - task: CopyFiles@2
     displayName: 'Copy jar to staging directory.'
