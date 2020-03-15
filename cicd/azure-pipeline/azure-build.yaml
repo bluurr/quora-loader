@@ -1,0 +1,58 @@
+pool:
+  vmImage: 'ubuntu-16.04'
+
+trigger:
+  branches:
+    include:
+    - master
+
+pr:
+- master
+
+schedules:
+- cron: "0 10 * * *"
+  displayName: Daily Build
+  always: true
+  branches:
+    include:
+    - master
+
+variables:
+  - group: ci_quora_details
+  - name: MAVEN_CACHE_FOLDER
+    value: $(Pipeline.Workspace)/.m2/repository
+  - name: MAVEN_OPTS
+    value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+
+steps:
+  - task: Cache@2
+    inputs:
+      key: 'maven | "$(Agent.OS)" | **/pom.xml'
+      restoreKeys: |
+        maven | "$(Agent.OS)"
+        maven
+      path: $(MAVEN_CACHE_FOLDER)
+    displayName: Cache Maven local repo
+
+  ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+  - task: Maven@3
+    displayName: 'Verify build (Maven)'
+    inputs:
+      goals: verify source:jar javadoc:jar
+      options: '$(MAVEN_OPTS)'
+      jdkVersionOption: '1.8'
+      testResultsFiles: '**/TEST-*.xml'
+    env:
+        QUORA_CONTACT: $(quora.contact)
+        QUORA_LOGIN_USERNAME: $(quora.login.username)
+        QUORA_LOGIN_PASSWORD: $(quora.login.password)
+
+  - task: CopyFiles@2
+    displayName: 'Copy jar to staging directory.'
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/target'
+      contents: '*.jar'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
+
+  - publish: '$(Build.ArtifactStagingDirectory)/target/'
+    artifact: build
