@@ -23,6 +23,7 @@ steps:
     displayName: 'Verify build (Maven)'
     inputs:
       goals: verify source:jar javadoc:jar
+      options: '$(MAVEN_OPTS)'
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
     env:
