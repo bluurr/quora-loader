@@ -19,6 +19,7 @@ schedules:
 
 variables:
   - group: ci_quora_details
+  - group: ci_gpg_keys
   - name: MAVEN_CACHE_FOLDER
     value: $(Pipeline.Workspace)/.m2/repository
   - name: MAVEN_OPTS
@@ -56,6 +57,7 @@ steps:
         QUORA_CONTACT: $(quora.contact)
         QUORA_LOGIN_USERNAME: $(quora.login.username)
         QUORA_LOGIN_PASSWORD: $(quora.login.password)
+        GPG_PASSPHRASE: $(gpg_key_passphrase)
 
   - task: CopyFiles@2
     displayName: 'Copy jar to staging directory.'
