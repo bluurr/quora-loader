@@ -29,6 +29,10 @@ steps:
     displayName: 'Download GPG key file'
     inputs:
       secureFile: 'oss-gpg-key.asc'
+  
+  - script: |
+      gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath) 
+      gpg --no-tty --batch --yes --list-keys
 
   - task: Cache@2
     inputs:
@@ -43,7 +47,7 @@ steps:
   - task: Maven@3
     displayName: 'Verify build (Maven)'
     inputs:
-      goals: verify source:jar javadoc:jar gpg:sign
+      goals: verify source:jar javadoc:jar gpg:sign -DskipITs
       options: '$(MAVEN_OPTS)'
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
