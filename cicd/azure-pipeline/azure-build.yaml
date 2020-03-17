@@ -63,10 +63,7 @@ steps:
     displayName: 'Copy jar to staging directory.'
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)/target'
-      contents: |
-        '**.jar'
-        '**.asc'
-        '**.pom'
+      contents: '**.**'
       targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
   - publish: '$(Build.ArtifactStagingDirectory)/target/'
