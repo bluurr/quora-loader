@@ -64,9 +64,9 @@ steps:
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)/target'
       contents: |
-        '*.jar'
-        '*.asc'
-        '*.pom'
+        '**.jar'
+        '**.asc'
+        '**.pom'
       targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
   - publish: '$(Build.ArtifactStagingDirectory)/target/'
