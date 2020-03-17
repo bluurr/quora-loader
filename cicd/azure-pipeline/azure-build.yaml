@@ -25,6 +25,11 @@ variables:
     value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 steps:
+  - task: DownloadSecureFile@1
+    displayName: 'Download GPG key file'
+    inputs:
+      secureFile: 'oss-gpg-key.asc'
+
   - task: Cache@2
     inputs:
       key: 'maven | "$(Agent.OS)" | **/pom.xml'
@@ -38,7 +43,7 @@ steps:
   - task: Maven@3
     displayName: 'Verify build (Maven)'
     inputs:
-      goals: verify source:jar javadoc:jar
+      goals: verify source:jar javadoc:jar gpg:sign
       options: '$(MAVEN_OPTS)'
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
@@ -51,7 +56,10 @@ steps:
     displayName: 'Copy jar to staging directory.'
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)/target'
-      contents: '*.jar'
+      contents: |
+        '*.jar'
+        '*.asc'
+        '*.pom'
       targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
   - publish: '$(Build.ArtifactStagingDirectory)/target/'
