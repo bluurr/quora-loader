@@ -181,6 +181,7 @@
 							<goal>sign</goal>
 						</goals>
 						<configuration>
+							<passphrase>${env.GPG_PASSPHRASE}</passphrase>
 							<gpgArguments>
 								<arg>--no-tty</arg>
 								<arg>--batch</arg>
