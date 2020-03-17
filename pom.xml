@@ -24,8 +24,8 @@
 	</scm>
 
 	<ciManagement>
-		<system>Travis</system>
-		<url>https://travis-ci.com/bluurr/QuoraLoader</url>
+		<system>Azure</system>
+		<url>https://dev.azure.com/open-source-bluurr-io/quora-loader-project/_build</url>
 	</ciManagement>
 
 	<properties>
@@ -167,6 +167,28 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<gpgArguments>
+								<arg>--no-tty</arg>
+								<arg>--batch</arg>
+								<arg>--yes</arg>
+							</gpgArguments>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
