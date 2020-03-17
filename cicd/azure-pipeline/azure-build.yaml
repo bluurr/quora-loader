@@ -26,6 +26,7 @@ variables:
 
 steps:
   - task: DownloadSecureFile@1
+    name: gpgKey
     displayName: 'Download GPG key file'
     inputs:
       secureFile: 'oss-gpg-key.asc'
