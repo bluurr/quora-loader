@@ -49,7 +49,7 @@ steps:
   - task: Maven@3
     displayName: 'Verify build (Maven)'
     inputs:
-      goals: verify source:jar javadoc:jar gpg:sign -DskipITs
+      goals: verify source:jar javadoc:jar -DskipITs
       options: '$(MAVEN_OPTS)'
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
