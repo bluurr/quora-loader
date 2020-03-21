@@ -75,7 +75,7 @@ stages:
         artifact: build
 - stage: Deploy
   jobs:
-    - deployment: Deploy Artifact
+    - deployment: deploy_artifact
       displayName: Deploy Artifact
       pool:
         vmImage: 'Ubuntu-16.04'
