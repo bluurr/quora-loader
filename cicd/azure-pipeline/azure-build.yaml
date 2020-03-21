@@ -17,56 +17,59 @@ schedules:
     include:
     - master
 
-variables:
-  - group: ci_quora_details
-  - group: ci_gpg_keys
-  - name: MAVEN_CACHE_FOLDER
-    value: $(Pipeline.Workspace)/.m2/repository
-  - name: MAVEN_OPTS
-    value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+stages:
+- stage: Build
+  variables:
+    - group: ci_quora_details
+    - group: ci_gpg_keys
+    - name: MAVEN_CACHE_FOLDER
+      value: $(Pipeline.Workspace)/.m2/repository
+    - name: MAVEN_OPTS
+      value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  jobs:
+  - job: Build
+    steps:
+      - task: DownloadSecureFile@1
+        name: gpgKey
+        displayName: 'Download GPG key file'
+        inputs:
+          secureFile: 'oss-gpg-key.asc'
+      
+      - script: |
+          gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)
 
-steps:
-  - task: DownloadSecureFile@1
-    name: gpgKey
-    displayName: 'Download GPG key file'
-    inputs:
-      secureFile: 'oss-gpg-key.asc'
-  
-  - script: |
-      gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)
+      - task: Cache@2
+        inputs:
+          key: 'maven | "$(Agent.OS)" | **/pom.xml'
+          restoreKeys: |
+            maven | "$(Agent.OS)"
+            maven
+          path: $(MAVEN_CACHE_FOLDER)
+        displayName: Cache Maven local repo
 
-  - task: Cache@2
-    inputs:
-      key: 'maven | "$(Agent.OS)" | **/pom.xml'
-      restoreKeys: |
-        maven | "$(Agent.OS)"
-        maven
-      path: $(MAVEN_CACHE_FOLDER)
-    displayName: Cache Maven local repo
+      ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+      - task: Maven@3
+        displayName: 'Verify build (Maven)'
+        inputs:
+          goals: verify -DskipITs
+          options: '$(MAVEN_OPTS)'
+          jdkVersionOption: '1.8'
+          testResultsFiles: '**/TEST-*.xml'
+        env:
+            QUORA_CONTACT: $(quora.contact)
+            QUORA_LOGIN_USERNAME: $(quora.login.username)
+            QUORA_LOGIN_PASSWORD: $(quora.login.password)
+            GPG_PASSPHRASE: $(gpg_key_passphrase)
 
-  ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
-  - task: Maven@3
-    displayName: 'Verify build (Maven)'
-    inputs:
-      goals: verify -DskipITs
-      options: '$(MAVEN_OPTS)'
-      jdkVersionOption: '1.8'
-      testResultsFiles: '**/TEST-*.xml'
-    env:
-        QUORA_CONTACT: $(quora.contact)
-        QUORA_LOGIN_USERNAME: $(quora.login.username)
-        QUORA_LOGIN_PASSWORD: $(quora.login.password)
-        GPG_PASSPHRASE: $(gpg_key_passphrase)
+      - task: CopyFiles@2
+        displayName: 'Copy jar to staging directory.'
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/target'
+          contents: |
+            *.jar
+            *.asc
+            *.pom
+          targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
-  - task: CopyFiles@2
-    displayName: 'Copy jar to staging directory.'
-    inputs:
-      sourceFolder: '$(Build.SourcesDirectory)/target'
-      contents: |
-        *.jar
-        *.asc
-        *.pom
-      targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
-
-  - publish: '$(Build.ArtifactStagingDirectory)/target/'
-    artifact: build
+      - publish: '$(Build.ArtifactStagingDirectory)/target/'
+        artifact: build
