@@ -79,7 +79,7 @@ stages:
       displayName: Deploy Artifact
       pool:
         vmImage: 'Ubuntu-16.04'
-      environment: 'deploy-artifact'
+      environment: 'deploy_artifact'
       strategy: 
         runOnce:
           deploy:
