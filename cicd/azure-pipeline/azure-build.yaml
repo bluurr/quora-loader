@@ -73,3 +73,19 @@ stages:
 
       - publish: '$(Build.ArtifactStagingDirectory)/target/'
         artifact: build
+- stage: Deploy
+  jobs:
+    - deployment: Deploy Artifact
+      displayName: Deploy Artifact
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      environment: 'deploy-artifact'
+      strategy: 
+        runOnce:
+          deploy:
+            steps:
+              - task: MavenAuthenticate@0
+                displayName: 'Maven Authenticate'
+                inputs:
+                  artifactsFeeds: 'open-source-bluurr-io'
+                  mavenServiceConnections: 'maven-oss-staging'
