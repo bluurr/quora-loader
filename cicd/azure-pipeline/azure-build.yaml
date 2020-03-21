@@ -33,8 +33,7 @@ steps:
       secureFile: 'oss-gpg-key.asc'
   
   - script: |
-      gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath) 
-      gpg --no-tty --batch --yes --list-keys
+      gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)
 
   - task: Cache@2
     inputs:
@@ -49,7 +48,7 @@ steps:
   - task: Maven@3
     displayName: 'Verify build (Maven)'
     inputs:
-      goals: verify source:jar javadoc:jar -DskipITs
+      goals: verify -DskipITs
       options: '$(MAVEN_OPTS)'
       jdkVersionOption: '1.8'
       testResultsFiles: '**/TEST-*.xml'
@@ -64,8 +63,8 @@ steps:
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)/target'
       contents: |
-        **.jar
-        **/**.asc
+        *.jar
+        *.asc
         *.pom
       targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
