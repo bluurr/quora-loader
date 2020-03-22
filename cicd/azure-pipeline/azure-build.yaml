@@ -109,10 +109,10 @@ stages:
               - task: Bash@3
                 displayName: 'Chmod Scripts'
                 inputs:
+                  targetType: 'inline'
                   workingDirectory: $(Pipeline.Workspace)/script
                   script: |
                     sudo chmod 777 mvn-upload-x.sh
-                 
               - task: Bash@3
                 displayName: 'Deploy Artifact Nexus'
                 env:
