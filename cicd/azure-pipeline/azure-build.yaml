@@ -78,6 +78,7 @@ stages:
     - group: ci_oss_nexus
   jobs:
     - deployment: deploy_artifact
+      environment: deploy_artifact
       displayName: Deploy Artifact
       pool:
         vmImage: 'Ubuntu-16.04'
