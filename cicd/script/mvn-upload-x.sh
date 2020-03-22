@@ -22,8 +22,8 @@ mvn deploy:deploy-file \
     -DpomFile=${ARTIFACT_ID_WITH_VERSION}.pom \
     -Dfile=${ARTIFACT_ID_WITH_VERSION}.jar \
     -Dfiles="${ARTIFACT_ID_WITH_VERSION}-javadoc.jar.asc,${ARTIFACT_ID_WITH_VERSION}-sources.jar.asc,${ARTIFACT_ID_WITH_VERSION}.jar.asc,${ARTIFACT_ID_WITH_VERSION}.pom.asc" \
-    -Dclassifiers="javadoc.jar,sources.jar,jar,pom" \
-    -Dtypes="asc,asc,asc,asc" \
+    -Dclassifiers="javadoc,sources,," \
+    -Dtypes="jar.asc,jar.asc,jar.asc,pom.asc" \
     -Dsources=${ARTIFACT_ID_WITH_VERSION}-sources.jar \
     -Djavadoc=${ARTIFACT_ID_WITH_VERSION}-javadoc.jar \
     -DrepositoryId=sonatype-nexus-staging-bluurr \
