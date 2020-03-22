@@ -15,7 +15,7 @@ import java.util.List;
  *
  */
 public class BotExtra {
-	private static final int DEFAULT_TIMEOUT_SECONDS = 4;
+	private static final int DEFAULT_TIMEOUT_SECONDS = 8;
 	private static final int DEFAULT_WAIT_MILLISECOND = 250;
 	
     public static void setDriver(final WebDriver driver) {
