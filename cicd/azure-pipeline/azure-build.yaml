@@ -55,7 +55,7 @@ stages:
       - task: Maven@3
         displayName: 'Verify build (Maven)'
         inputs:
-          goals: verify -DskipITs
+          goals: verify
           options: '$(MAVEN_OPTS)'
           jdkVersionOption: '1.8'
           testResultsFiles: '**/TEST-*.xml'
@@ -109,7 +109,7 @@ stages:
               - task: Bash@3
                 displayName: 'Chmod Scripts'
                 inputs:
-                  workingDirectory: $(Pipeline.Workspace)/build
+                  workingDirectory: $(Pipeline.Workspace)/script
                   script: |
                     sudo chmod 777 mvn-upload-x.sh
                  
