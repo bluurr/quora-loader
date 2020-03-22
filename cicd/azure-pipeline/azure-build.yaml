@@ -6,9 +6,6 @@ trigger:
     include:
     - master
 
-pr:
-- master
-
 schedules:
 - cron: "0 10 * * *"
   displayName: Daily Build
@@ -17,42 +14,109 @@ schedules:
     include:
     - master
 
-variables:
-  - group: ci_quora_details
-  - name: MAVEN_CACHE_FOLDER
-    value: $(Pipeline.Workspace)/.m2/repository
-  - name: MAVEN_OPTS
-    value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+parameters:
+-
+  name: deploy
+  values:
+    - true
+    - false
+  default: false
 
-steps:
-  - task: Cache@2
-    inputs:
-      key: 'maven | "$(Agent.OS)" | **/pom.xml'
-      restoreKeys: |
-        maven | "$(Agent.OS)"
-        maven
-      path: $(MAVEN_CACHE_FOLDER)
-    displayName: Cache Maven local repo
+stages:
+- stage: Build
+  variables:
+    - group: ci_quora_details
+    - group: ci_gpg_keys
+    - name: MAVEN_CACHE_FOLDER
+      value: $(Pipeline.Workspace)/.m2/repository
+    - name: MAVEN_OPTS
+      value:  '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  jobs:
+  - job: Build
+    steps:
+      - task: DownloadSecureFile@1
+        name: gpgKey
+        displayName: 'Download GPG key file'
+        inputs:
+          secureFile: 'oss-gpg-key.asc'
+      
+      - script: |
+          gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)        
+      - task: Cache@2
+        inputs:
+          key: 'maven | "$(Agent.OS)" | **/pom.xml'
+          restoreKeys: |
+            maven | "$(Agent.OS)"
+            maven
+          path: $(MAVEN_CACHE_FOLDER)
+        displayName: Cache Maven local repo
 
-  ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
-  - task: Maven@3
-    displayName: 'Verify build (Maven)'
-    inputs:
-      goals: verify source:jar javadoc:jar
-      options: '$(MAVEN_OPTS)'
-      jdkVersionOption: '1.8'
-      testResultsFiles: '**/TEST-*.xml'
-    env:
-        QUORA_CONTACT: $(quora.contact)
-        QUORA_LOGIN_USERNAME: $(quora.login.username)
-        QUORA_LOGIN_PASSWORD: $(quora.login.password)
+      ## Maven steps documentation - https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+      - task: Maven@3
+        displayName: 'Verify build (Maven)'
+        inputs:
+          goals: verify
+          options: '$(MAVEN_OPTS)'
+          jdkVersionOption: '1.8'
+          testResultsFiles: '**/TEST-*.xml'
+        env:
+            QUORA_CONTACT: $(quora.contact)
+            QUORA_LOGIN_USERNAME: $(quora.login.username)
+            QUORA_LOGIN_PASSWORD: $(quora.login.password)
+            GPG_PASSPHRASE: $(gpg_key_passphrase)
 
-  - task: CopyFiles@2
-    displayName: 'Copy jar to staging directory.'
-    inputs:
-      sourceFolder: '$(Build.SourcesDirectory)/target'
-      contents: '*.jar'
-      targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
+      - task: CopyFiles@2
+        displayName: 'Copy artifact(s) to staging directory.'
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/target'
+          contents: |
+            *.jar
+            *.asc
+            *.pom
+          targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
 
-  - publish: '$(Build.ArtifactStagingDirectory)/target/'
-    artifact: build
+      - task: CopyFiles@2
+        displayName: 'Copy  to staging directory.'
+        inputs:
+          sourceFolder: '$(Build.SourcesDirectory)/cicd/script'
+          targetFolder: '$(Build.ArtifactStagingDirectory)/script/'
+
+      - publish: '$(Build.ArtifactStagingDirectory)/target/'
+        artifact: build
+
+      - publish: '$(Build.ArtifactStagingDirectory)/script/'
+        artifact: script
+
+- stage: Deploy
+  variables:
+    - group: ci_oss_nexus
+  jobs:
+    - deployment: deploy_artifact
+      environment: deploy_artifact
+      displayName: Deploy Artifact
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      condition: and(succeeded(), eq('${{ parameters.deploy }}', true))
+      strategy: 
+        runOnce:
+          deploy:
+            steps:
+              - task: MavenAuthenticate@0
+                displayName: 'Maven Authenticate'
+                inputs:
+                  artifactsFeeds: 'open-source-bluurr-io'
+                  mavenServiceConnections: 'maven-oss-staging'
+              - task: Bash@3
+                displayName: 'Chmod Scripts'
+                inputs:
+                  targetType: 'inline'
+                  workingDirectory: $(Pipeline.Workspace)/script
+                  script: |
+                    sudo chmod 777 mvn-upload-x.sh
+              - task: Bash@3
+                displayName: 'Deploy Artifact Nexus'
+                env:
+                  URL: $(ci_staging_oss_nexus_url)
+                inputs:
+                  workingDirectory: $(Pipeline.Workspace)/build
+                  filePath: '$(Pipeline.Workspace)/script/mvn-upload-x.sh'
