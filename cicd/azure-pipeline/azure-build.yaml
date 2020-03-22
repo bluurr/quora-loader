@@ -18,7 +18,9 @@ parameters:
 -
   name: deploy
   values:
+    - true
     - false
+  default: false
 
 stages:
 - stage: Build
