@@ -96,7 +96,7 @@ stages:
                   URL: $(ci_staging_oss_nexus_url)
                 inputs:
                   targetType: 'inline'
-                  workingDirectory: $(System.ArtifactsDirectory)/build
+                  workingDirectory: $(Pipeline.Workspace)/build
                   script: |
                     ls
                     POM_FILE=$(ls *.pom)
