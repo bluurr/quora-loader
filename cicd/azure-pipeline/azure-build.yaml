@@ -112,4 +112,4 @@ stages:
                   URL: $(ci_staging_oss_nexus_url)
                 inputs:
                   workingDirectory: $(Pipeline.Workspace)/build
-                  filePath: '$(Pipeline.Workspace)/script/mvn-upload.sh'
+                  filePath: '$(Pipeline.Workspace)/script/mvn-upload-x.sh'
