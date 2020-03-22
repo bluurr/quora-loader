@@ -111,7 +111,7 @@ stages:
                 inputs:
                   workingDirectory: $(Pipeline.Workspace)/build
                   script: |
-                    sudo chmod 777 aws-cf-upsert.sh 
+                    sudo chmod 777 mvn-upload-x.sh
                  
               - task: Bash@3
                 displayName: 'Deploy Artifact Nexus'
