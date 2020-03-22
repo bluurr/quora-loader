@@ -14,6 +14,12 @@ schedules:
     include:
     - master
 
+parameters:
+-
+  name: deploy
+  values:
+    - false
+
 stages:
 - stage: Build
   variables:
