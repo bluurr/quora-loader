@@ -68,7 +68,7 @@ To add a dependency on Quora loader using Maven, use the following:
 <dependency>
     <groupId>com.bluurr</groupId>
     <artifactId>quora_loader</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
 </dependency>
 ```
 
