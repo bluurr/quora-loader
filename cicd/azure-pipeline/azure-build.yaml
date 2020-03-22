@@ -41,8 +41,7 @@ stages:
           secureFile: 'oss-gpg-key.asc'
       
       - script: |
-          gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)
-
+          gpg --no-tty --batch --yes --import $(gpgKey.secureFilePath)        
       - task: Cache@2
         inputs:
           key: 'maven | "$(Agent.OS)" | **/pom.xml'
@@ -108,6 +107,14 @@ stages:
                   artifactsFeeds: 'open-source-bluurr-io'
                   mavenServiceConnections: 'maven-oss-staging'
               - task: Bash@3
+                displayName: 'Chmod Scripts'
+                inputs:
+                  workingDirectory: $(Pipeline.Workspace)/build
+                  script: |
+                    sudo chmod 777 aws-cf-upsert.sh 
+                 
+              - task: Bash@3
+                displayName: 'Deploy Artifact Nexus'
                 env:
                   URL: $(ci_staging_oss_nexus_url)
                 inputs:
