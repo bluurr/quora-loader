@@ -29,9 +29,9 @@
 	</ciManagement>
 
 	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<project.lib.spring.version>5.2.4.RELEASE</project.lib.spring.version>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<project.lib.spring.version>5.3.3</project.lib.spring.version>
 		<project.lombok.version>1.18.12</project.lombok.version>
 	</properties>
 
@@ -106,14 +106,14 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.6.0</version>
+			<version>5.7.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.6.0</version>
+			<version>5.7.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -136,6 +136,12 @@
 			<artifactId>junit-jupiter</artifactId>
 			<version>1.13.0</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit-jupiter-api</artifactId>
+					<groupId>org.junit.jupiter</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -166,6 +172,8 @@
 							<version>${project.lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
+					<source>10</source>
+					<target>10</target>
 				</configuration>
 			</plugin>
 

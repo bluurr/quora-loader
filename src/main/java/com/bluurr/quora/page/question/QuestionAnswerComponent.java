@@ -1,50 +1,57 @@
 package com.bluurr.quora.page.question;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
+import com.bluurr.quora.domain.Answer;
+import com.github.webdriverextensions.WebComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.bluurr.quora.domain.Answer;
-import com.github.webdriverextensions.WebComponent;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Sub component of each answer with Quora question page.
- * 
+ *
  * @author Bluurr
  *
  */
 public class QuestionAnswerComponent extends WebComponent {
-	@FindBy(xpath=".//*[@class='ui_qtext_para']")
-	private List<WebElement> messages;
-	
-	@FindBy(className="ui_qtext_expanded")
-	private List<WebElement> extendedMessages;
-	
+
+	@FindBy(xpath=".//*[contains(@class, 'puppeteer_test_answer_content')]//p//span")
+	private List<WebElement> paragraphs;
+
+	@FindBy(xpath = ".//*[contains(@class, 'puppeteer_test_answer_content')]//span//span[text()='(more)']")
+	private List<WebElement> clickToExpand;
+
 	@FindBy(xpath=".//a[@class='user']")
-	private List<WebElement> user;
+	private List<WebElement> answerBy;
 
 	public Answer getAnswer() {
-		List<String> results = toMessagesText(messages);
 
-		if(results.isEmpty()) {
-			results = toMessagesText(extendedMessages);
+		if (canExpand()) {
+			clickToExpand.get(0).click();
+
 		}
-		
-		Answer answer = new Answer();
-		answer.setComments(results);
-		answer.setUsername(getUsername());
-		return answer;
+
+		return Answer.builder()
+				.answerBy(toUsername())
+				.paragraphs(toParagraphs(paragraphs))
+				.build();
 	}
-	
-	private @Nullable String getUsername() {
-		return !user.isEmpty() ? user.get(0).getText() : null;
+
+	private boolean canExpand() {
+		return !clickToExpand.isEmpty();
 	}
-	
-	private List<String> toMessagesText(final List<WebElement> messages) {
-		return messages.stream().map(WebElement::getText).collect(Collectors.toList());
+
+	private String toUsername() {
+		return answerBy.stream()
+				.findFirst()
+				.map(WebElement::getText)
+				.orElse("");
+	}
+
+	private List<String> toParagraphs(final List<WebElement> messages) {
+		return messages.stream()
+				.map(WebElement::getText)
+				.collect(Collectors.toList());
 	}
 }

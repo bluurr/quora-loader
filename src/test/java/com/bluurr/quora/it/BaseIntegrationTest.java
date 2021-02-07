@@ -12,18 +12,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.annotation.Resource;
-import java.net.URI;
 
-/**
- * 
- * @author Bluurr
- *
- */
 @ExtendWith(SpringExtension.class)
 @Testcontainers
 @ContextConfiguration(classes=IntegrationConfig.class)
 public abstract class BaseIntegrationTest {
-	protected static final URI QUORA_HOST = URI.create("https://www.quora.com");
 
 	@Resource
 	@Container
@@ -33,7 +26,7 @@ public abstract class BaseIntegrationTest {
 	public void beforeTest() {
 		BotExtra.setDriver(driverContainer.getWebDriver());
 	}
-	
+
 	@AfterEach
 	public void afterTest() {
 		BotExtra.closeDriver();

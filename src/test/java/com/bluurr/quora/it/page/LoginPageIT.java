@@ -1,41 +1,64 @@
 package com.bluurr.quora.it.page;
 
-import com.bluurr.quora.domain.LoginCredential;
+import com.bluurr.quora.Navigator;
+import com.bluurr.quora.domain.user.LoginCredential;
 import com.bluurr.quora.it.BaseIntegrationTest;
-import com.bluurr.quora.page.InvalidLoginException;
-import com.bluurr.quora.page.LoginPage;
-import org.junit.jupiter.api.Assertions;
+import com.bluurr.quora.page.login.InvalidLoginException;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.Resource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * 
- * @author Bluurr
- *
- */
 class LoginPageIT extends BaseIntegrationTest {
 
-	@Resource
-	private LoginCredential credential;
-	
-	@Test
-	void testValidLogin() {
-		assertThat(LoginPage.isLoggedIn(), is(false));
-		LoginPage.open(QUORA_HOST).login(credential);
-		assertThat(LoginPage.isLoggedIn(), is(true));
+	@Nested
+	class ValidCredentialsTest {
+
+		@Resource
+		private Navigator navigator;
+
+		@Resource
+		private LoginCredential credential;
+
+		@Test
+		void givenValidCredentialsWhenLoginThenLoginSuccessful() {
+
+			// When
+
+			var session = navigator.login();
+
+			// Then
+
+			assertThat(session, notNullValue());
+			assertThat(session.getUsername(), equalTo(credential.getUsername()));
+		}
 	}
-	
-	@Test
-	void testInvalidLogin() {
-		assertThat(LoginPage.isLoggedIn(), is(false));
-		Assertions.assertThrows(InvalidLoginException.class, () -> LoginPage.open(QUORA_HOST).login(createInvalidLogin()));
-	}
-	
-	private LoginCredential createInvalidLogin() {
-		return new LoginCredential("hyedjdfhudfhuu45y45", "ghdfhdfhyuhdfyhyudf");
+
+	@Nested
+	@TestPropertySource(properties = { "quora.login.username=hyedjdfhudfhuu45y45", "quora.login.password=ghdfhdfhyuhdfyhyudf" })
+	class InvalidCredentialsTest {
+
+		@Resource
+		private Navigator navigator;
+
+		@Test
+		void givenInvalidCredentialsWhenLoginThenThrowInvalidLogin() {
+
+			// When
+
+			var error = assertThrows(InvalidLoginException.class,
+					() -> navigator.login());
+
+			// Then
+
+			assertThat(error.getMessage(), equalTo("No account found for this email. Retry, or Sign up for Quora."));
+		}
+
 	}
 }

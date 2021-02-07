@@ -1,23 +1,23 @@
 package com.bluurr.quora.it.page;
 
-import com.bluurr.quora.domain.LoginCredential;
-import com.bluurr.quora.domain.QuestionSummary;
+import com.bluurr.quora.Navigator;
+import com.bluurr.quora.domain.QuestionSearchResult;
 import com.bluurr.quora.it.BaseIntegrationTest;
-import com.bluurr.quora.page.LoginPage;
 import com.bluurr.quora.page.search.SearchPage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Every.everyItem;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * 
+ *
  * @author Bluurr
  *
  */
@@ -26,28 +26,33 @@ class SearchPageIT extends BaseIntegrationTest {
 	 * Likely to always return topics.
 	 */
 	private static final String SEARCH_TERM = "Java";
-	private static final String SEARCH_TYPE = "answer";
-	
+
 	@Resource
-	private LoginCredential credential;
-	
+	private Navigator navigator;
+
+
 	@BeforeEach
 	void before() {
-		LoginPage.open(QUORA_HOST).login(credential);
+		navigator.login();
 	}
 
 	@Test
 	void performSearch() {
-		SearchPage page = SearchPage.openDirect(SEARCH_TERM, SEARCH_TYPE);
+
+		SearchPage page = navigator.searchForTerm(SEARCH_TERM);
 		assertThat(page, notNullValue());
-		
-		List<QuestionSummary> questions = page.getQuestions(5);
+
+		List<QuestionSearchResult> questions = page.next();
 		assertThat(questions, notNullValue());
-		assertThat(questions, everyItem(notNullValue(QuestionSummary.class)));
+		assertThat(questions, everyItem(notNullValue()));
 	}
-	
+
 	@Test
 	void performInvalidSearch() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> SearchPage.openDirect("", SEARCH_TYPE));
+
+		var result = assertThrows(NullPointerException.class,
+				() -> navigator.searchForTerm(null));
+
+		assertThat(result.getMessage(), equalTo("term is marked non-null but is null"));
 	}
 }
