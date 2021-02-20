@@ -11,13 +11,13 @@ import lombok.experimental.Accessors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import javax.annotation.Resource;
 
 @ExtendWith(SpringExtension.class)
 @Testcontainers
@@ -26,11 +26,11 @@ public abstract class BaseIntegrationTest {
 
 	protected static final String BASE_URL = "https://www.quora.com";
 
-	@Resource
+	@Autowired
 	@Container
 	private BrowserWebDriverContainer<?> driverContainer;
 
-	@Resource
+	@Autowired
 	private LoginCredential credential;
 
 	@Accessors(fluent = true)

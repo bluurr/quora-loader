@@ -1,13 +1,12 @@
 package com.bluurr.quora.navigator;
 
 import com.bluurr.quora.BaseIntegrationTest;
-import com.bluurr.quora.domain.user.LoginCredential;
 import com.bluurr.quora.domain.user.InvalidLoginException;
+import com.bluurr.quora.domain.user.LoginCredential;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
-
-import javax.annotation.Resource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,7 +18,7 @@ class LoginPageNavigatorIT extends BaseIntegrationTest {
   @Nested
   class ValidCredentialsTest {
 
-    @Resource
+    @Autowired
     private LoginCredential credential;
 
     @Test
@@ -44,7 +43,7 @@ class LoginPageNavigatorIT extends BaseIntegrationTest {
   @TestPropertySource(properties = { "quora.login.username=hyedjdfhudfhuu45y45", "quora.login.password=ghdfhdfhyuhdfyhyudf" })
   class InvalidCredentialsTest {
 
-    @Resource
+    @Autowired
     private LoginCredential credential;
 
     @Test
