@@ -31,8 +31,8 @@
 	<properties>
 		<maven.compiler.target>11</maven.compiler.target>
 		<maven.compiler.source>11</maven.compiler.source>
-		<project.lib.spring.version>5.3.3</project.lib.spring.version>
-		<project.lombok.version>1.18.12</project.lombok.version>
+		<project.lib.spring.version>5.3.4</project.lib.spring.version>
+		<project.lombok.version>1.18.18</project.lombok.version>
 	</properties>
 
 	<dependencies>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.14</version>
+			<version>1.15</version>
 		</dependency>
 
 		<dependency>
@@ -105,15 +105,8 @@
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.7.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.7.0</version>
+			<version>5.7.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -127,14 +120,14 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>selenium</artifactId>
-			<version>1.13.0</version>
+			<version>1.15.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>1.13.0</version>
+			<version>1.15.2</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -172,8 +165,8 @@
 							<version>${project.lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
-					<source>10</source>
-					<target>10</target>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
 
