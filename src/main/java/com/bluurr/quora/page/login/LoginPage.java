@@ -1,15 +1,15 @@
 package com.bluurr.quora.page.login;
 
+import com.bluurr.quora.domain.user.InvalidLoginException;
 import com.bluurr.quora.domain.user.LoginCredential;
 import com.bluurr.quora.domain.user.UserSession;
+import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.PageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.bluurr.quora.extension.BotExtra.waitForOneDisplay;
 
 /**
  * Login page for Quora.
@@ -30,6 +30,10 @@ public class LoginPage extends PageObject {
 
 	@FindBy(xpath="//*[@class='regular_login']//*[@class='input_validation_error_text']")
 	private List<WebElement> validationErrors;
+
+	public LoginPage(final EnhancedDriver driver) {
+		super(driver);
+	}
 
 	public UserSession login(final LoginCredential credentials) {
 
@@ -53,7 +57,7 @@ public class LoginPage extends PageObject {
 
 	private void enterUsername(final String loginUsername) {
 
-		waitForOneDisplay(List.of(username));
+		driver().waitForDisplay(username);
 
 		username.clear();
 		username.sendKeys(loginUsername);
@@ -61,7 +65,7 @@ public class LoginPage extends PageObject {
 
 	private void enterPassword(final String loginPassword) {
 
-		waitForOneDisplay(List.of(password));
+		driver().waitForDisplay(password);
 
 		password.clear();
 		password.sendKeys(loginPassword);
@@ -78,7 +82,7 @@ public class LoginPage extends PageObject {
 
 	private void waitForLogin() {
 
-		waitForOneDisplay(homePage, validationErrors);
+		driver().waitForOneDisplay(homePage, validationErrors);
 
 		if(isNotLoggedIn()) {
 			throw new InvalidLoginException(getErrorReason());
@@ -86,7 +90,11 @@ public class LoginPage extends PageObject {
 	}
 
 	private String getErrorReason() {
-		var messages =  validationErrors.stream().map(WebElement::getText).collect(Collectors.joining(", "));
+
+		var messages =  validationErrors.stream()
+				.map(WebElement::getText)
+				.collect(Collectors.joining(", "));
+
 		return messages.isEmpty() ? "Unable to login." : messages;
 	}
 }

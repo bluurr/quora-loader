@@ -1,50 +1,47 @@
 package com.bluurr.quora.page.search;
 
 import com.bluurr.quora.domain.QuestionSearchResult;
+import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.PageObject;
+import com.bluurr.quora.page.component.InfiniteScrollPage;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bluurr.quora.extension.BotExtra.scrollToPageBottom;
-import static com.bluurr.quora.extension.BotExtra.waitForNumberOfElementsToBeMoreThan;
-
 /**
  * Question search page for Quora once logged in.
  *
- * @author Bluurr
- *
  */
 @Slf4j
-public class SearchPage extends PageObject {
+public class SearchPage extends PageObject implements InfiniteScrollPage<QuestionSearchResult> {
 
 	@FindBy(xpath="//*[contains(@class, 'CssComponent')]//*[contains(@class, 'qu-fontSize--regular')]")
-	private List<SearchResultComponent> results;
+	private List<SearchResultPageComponent> resultsComponent;
 
-	private int seenIndex;
+	public SearchPage(final EnhancedDriver driver) {
+		super(driver);
+	}
 
-	public List<QuestionSearchResult> next() {
+	@Override
+	public int currentElementCount() {
+		return resultsComponent.size();
+	}
 
-		int start = seenIndex;
-		seenIndex = results.size();
-
-		fetchNext();
-
-		return results.stream()
-				.skip(start)
-				.limit(seenIndex)
-				.map(SearchResultComponent::getSummary)
+	@Override
+	public List<QuestionSearchResult> resultsWithSkip(final int skip) {
+		return resultsComponent.stream()
+				.skip(skip)
+				.map(SearchResultPageComponent::getSummary)
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public void scrollNext() {
+		var currentAmount = resultsComponent.size();
 
-	private void fetchNext() {
-
-		var currentAmount = results.size();
-
-		scrollToPageBottom();
-		waitForNumberOfElementsToBeMoreThan(currentAmount, results);
+		driver().scrollToPageBottom();
+		driver().waitForNumberOfElementsToBeMoreThan(currentAmount, resultsComponent);
 	}
 }

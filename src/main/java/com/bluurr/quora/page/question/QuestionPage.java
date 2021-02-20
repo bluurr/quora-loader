@@ -2,9 +2,10 @@ package com.bluurr.quora.page.question;
 
 import com.bluurr.quora.domain.Answer;
 import com.bluurr.quora.domain.Question;
+import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.PageObject;
-import com.github.webdriverextensions.Bot;
-import lombok.Getter;
+import com.bluurr.quora.page.component.InfiniteScrollPage;
+import com.bluurr.quora.page.question.QuestionAnswerComponent.QuestionAnswerComponentDriverAware;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,42 +13,27 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bluurr.quora.extension.BotExtra.scrollToPageBottom;
-import static com.bluurr.quora.extension.BotExtra.waitForNumberOfElementsToBeMoreThan;
-
 /**
  * Question page for Quora once logged in.
  *
- * @author Bluurr
- *
  */
 @Slf4j
-public class QuestionPage extends PageObject {
-
+public class QuestionPage extends PageObject implements InfiniteScrollPage<Answer> {
 
 	@FindBy(xpath = "//*[contains(@class, 'puppeteer_test_question_title')]//*")
 	private List<WebElement> titles;
 
 	@FindBy(xpath="//*[contains(@class, 'CssComponent')]/*[contains(@class, 'q-box')]")
-	private List<QuestionAnswerComponent> answers;
+	private List<QuestionAnswerComponent> answerComponents;
 
-	@Getter
-	private final QuestionAnswerFetch answerFetcher;
-
-	public QuestionPage() {
-		super();
-		this.answerFetcher = new QuestionAnswerFetch();
-
+	public QuestionPage(final EnhancedDriver driver) {
+		super(driver);
 	}
 
-	public QuestionAnswerFetch answers() {
-		return answerFetcher;
-	}
-
-	public Question question() {
+	public Question getQuestion() {
 
 		return Question.builder()
-				.location(Bot.currentUrl())
+				.location(driver().webDriver().getCurrentUrl())
 				.title(getTitle())
 				.build();
 	}
@@ -60,26 +46,26 @@ public class QuestionPage extends PageObject {
 				.orElse("");
 	}
 
+	@Override
+	public int currentElementCount() {
+		return answerComponents.size();
+	}
 
+	@Override
+	public List<Answer> resultsWithSkip(final int skip) {
+		return answerComponents.stream()
+			.skip(skip)
+			.map(component -> component.withDriver(driver()))
+			.map(QuestionAnswerComponentDriverAware::getAnswer)
+			.filter(answer -> !answer.getParagraphs().isEmpty())
+			.collect(Collectors.toList());
+	}
 
-	public class QuestionAnswerFetch {
+	@Override
+	public void scrollNext() {
+		var currentAmount = answerComponents.size();
 
-		private int seenIndex;
-
-		public List<Answer> next() {
-
-			int start = seenIndex;
-			seenIndex = answers.size();
-
-			scrollToPageBottom();
-			waitForNumberOfElementsToBeMoreThan(seenIndex, answers);
-
-			return answers.stream()
-					.skip(start)
-					.limit(seenIndex)
-					.map(QuestionAnswerComponent::getAnswer)
-					.filter(answer -> !answer.getParagraphs().isEmpty())
-					.collect(Collectors.toList());
-		}
+		driver().scrollToPageBottom();
+		driver().waitForNumberOfElementsToBeMoreThan(currentAmount, answerComponents);
 	}
 }

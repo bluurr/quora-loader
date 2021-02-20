@@ -1,8 +1,11 @@
 package com.bluurr.quora.page.question;
 
 import com.bluurr.quora.domain.Answer;
+import com.bluurr.quora.extension.EnhancedDriver;
 import com.github.webdriverextensions.WebComponent;
+import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -11,47 +14,63 @@ import java.util.stream.Collectors;
 /**
  * Sub component of each answer with Quora question page.
  *
- * @author Bluurr
- *
  */
 public class QuestionAnswerComponent extends WebComponent {
 
-	@FindBy(xpath=".//*[contains(@class, 'puppeteer_test_answer_content')]//p//span")
+	@FindAll( {
+			@FindBy(xpath = ".//*[contains(@class, 'puppeteer_test_answer_content')]//p//span"),
+			@FindBy(xpath = ".//*[contains(@class, 'puppeteer_test_answer_content')]//ul//li//span")
+	})
 	private List<WebElement> paragraphs;
 
 	@FindBy(xpath = ".//*[contains(@class, 'puppeteer_test_answer_content')]//span//span[text()='(more)']")
-	private List<WebElement> clickToExpand;
+	private List<WebElement> readMore;
 
 	@FindBy(xpath=".//a[@class='user']")
 	private List<WebElement> answerBy;
 
-	public Answer getAnswer() {
+	public QuestionAnswerComponentDriverAware withDriver(final EnhancedDriver driver) {
+		return new QuestionAnswerComponentDriverAware(driver);
+	}
 
-		if (canExpand()) {
-			clickToExpand.get(0).click();
+	@RequiredArgsConstructor
+	class QuestionAnswerComponentDriverAware {
 
+		private final EnhancedDriver driver;
+
+		public Answer getAnswer() {
+
+			readMore
+					.stream()
+					.findFirst()
+					.ifPresent(this::expandReadMore);
+
+
+			return Answer.builder()
+					.answerBy(toUsername())
+					.paragraphs(toParagraphs(paragraphs))
+					.build();
 		}
 
-		return Answer.builder()
-				.answerBy(toUsername())
-				.paragraphs(toParagraphs(paragraphs))
-				.build();
-	}
+		private String toUsername() {
 
-	private boolean canExpand() {
-		return !clickToExpand.isEmpty();
-	}
+			return answerBy.stream()
+					.findFirst()
+					.map(WebElement::getText)
+					.orElse("");
+		}
 
-	private String toUsername() {
-		return answerBy.stream()
-				.findFirst()
-				.map(WebElement::getText)
-				.orElse("");
-	}
+		private List<String> toParagraphs(final List<WebElement> messages) {
 
-	private List<String> toParagraphs(final List<WebElement> messages) {
-		return messages.stream()
-				.map(WebElement::getText)
-				.collect(Collectors.toList());
+			return messages.stream()
+					.map(WebElement::getText)
+					.collect(Collectors.toList());
+		}
+
+		private void expandReadMore(final WebElement clickTarget) {
+
+			// Javascript click due to native clicking unable to execute.
+			driver.executeJavascript("arguments[0].click();", clickTarget);
+		}
 	}
 }

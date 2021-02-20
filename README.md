@@ -22,27 +22,45 @@ To enable recording output: `-Dcontainer.record={true|false}`
 
 ### Usage
 Below is an example of how to login, search and load back a question.
+
+
 ```Java
-/** Set-up Chrome driver **/
-BotExtra.setDriver(new ChromeDriver());
+/** Set-up driver **/
+
+var driver = new ChromeDriver();
+
+var credentials = LoginCredential.builder()
+    .username(username)
+    .password(password)
+    .build();
 
 final String QUORA_LOCATION = "https://www.quora.com";
 
-/** Login to the Quora platform **/
-DashBoardPage dashboard = LoginPage.open(URI.create(QUORA_LOCATION)).login("{username}", "{password}");
+
+// Start on login page
+
+LoginPageNavigator navigator = new LoginPageNavigator(BASE_URL, credentials, driver);
+
+// Trigger a login
+
+AuthenticatedNavigator authenticatedNav = navigator.authenticate();
 
 /** Search the term Java on the Quora platform **/
-SearchPage searchPage = dashboard.search("Java");
 
-/** Load a summary of up to 10 questions. **/
-List<QuestionSummary> questions = searchPage.getQuestions(10);
+SearchPageNavigator searchNav = authenticatedNav.searchForTerm(SEARCH_TERM);
 
-/** Load a Question and up to 5 answers **/
-String location = questions.get(0).getLocation();
-Question fullQuestion = QuestionPage.open(location).getQuestion(Answers.limit(5));
+/** Read the first page of questions **/
+List<QuestionSearchResult> questions = searchNav.results().next();
 
-/** Clean up **/
-BotExtra.closeDriver();
+/** Open the question page **/
+
+QuestionSearchResult searchResult = searchNav.firstResult();
+QuestionPageNavigator questionNav = authenticatedNav.getQuestionAt(searchResult.getLocation());
+
+/** Read first page of answers **/
+
+List<Answer> answers = questionNav.answers().next();
+
 ```
 ### Tests
 To run the integration tests the following properties need to be set:

@@ -1,6 +1,5 @@
-package com.bluurr.quora.it.config;
+package com.bluurr.quora.config;
 
-import com.bluurr.quora.Navigator;
 import com.bluurr.quora.domain.user.LoginCredential;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -30,11 +29,6 @@ public class IntegrationConfig {
 				.username(username)
 				.password(password)
 				.build();
-	}
-
-	@Bean
-	public Navigator navigator(final LoginCredential credential) {
-		return new Navigator("https://www.quora.com", credential);
 	}
 
 	@Bean

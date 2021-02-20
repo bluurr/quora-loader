@@ -1,18 +1,15 @@
 package com.bluurr.quora.page.search;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
 import com.bluurr.quora.domain.QuestionSearchResult;
 import com.github.webdriverextensions.WebComponent;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Sub component of each question with Quora search page results.
  *
- * @author Bluurr
- *
  */
-public class SearchResultComponent extends WebComponent {
+public class SearchResultPageComponent extends WebComponent {
 
 	@FindBy(xpath = "//*[contains(@class, 'puppeteer_test_question_title')]/span")
 	private WebElement question;

@@ -1,4 +1,4 @@
-package com.bluurr.quora.page.login;
+package com.bluurr.quora.domain.user;
 
 public class InvalidLoginException extends IllegalStateException {
 	public InvalidLoginException(final String message) {
