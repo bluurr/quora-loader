@@ -9,7 +9,7 @@ This library allows you to login, search and retrieve answers for a question. As
 
 ### Prerequisite
 The library requires the following minimum versions
-1. Java 8
+1. Java 11
 2. Maven 3 or higher
 3. Docker (For Testing Only)
 
