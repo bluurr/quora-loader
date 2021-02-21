@@ -1,13 +1,6 @@
-package com.bluurr.quora.page;
+package com.bluurr.quora.domain.user;
 
-/**
- * 
- * @author Bluurr
- *
- */
 public class InvalidLoginException extends IllegalStateException {
-	private static final long serialVersionUID = -7955342082753968164L;
-
 	public InvalidLoginException(final String message) {
 		super(message);
 	}

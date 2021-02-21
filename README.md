@@ -9,7 +9,7 @@ This library allows you to login, search and retrieve answers for a question. As
 
 ### Prerequisite
 The library requires the following minimum versions
-1. Java 8
+1. Java 11
 2. Maven 3 or higher
 3. Docker (For Testing Only)
 
@@ -22,27 +22,45 @@ To enable recording output: `-Dcontainer.record={true|false}`
 
 ### Usage
 Below is an example of how to login, search and load back a question.
+
+
 ```Java
-/** Set-up Chrome driver **/
-BotExtra.setDriver(new ChromeDriver());
+/** Set-up driver **/
+
+var driver = new ChromeDriver();
+
+var credentials = LoginCredential.builder()
+    .username(username)
+    .password(password)
+    .build();
 
 final String QUORA_LOCATION = "https://www.quora.com";
 
-/** Login to the Quora platform **/
-DashBoardPage dashboard = LoginPage.open(URI.create(QUORA_LOCATION)).login("{username}", "{password}");
+
+// Start on login page
+
+LoginPageNavigator navigator = new LoginPageNavigator(BASE_URL, credentials, driver);
+
+// Trigger a login
+
+AuthenticatedNavigator authenticatedNav = navigator.authenticate();
 
 /** Search the term Java on the Quora platform **/
-SearchPage searchPage = dashboard.search("Java");
 
-/** Load a summary of up to 10 questions. **/
-List<QuestionSummary> questions = searchPage.getQuestions(10);
+SearchPageNavigator searchNav = authenticatedNav.searchForTerm(SEARCH_TERM);
 
-/** Load a Question and up to 5 answers **/
-String location = questions.get(0).getLocation();
-Question fullQuestion = QuestionPage.open(location).getQuestion(Answers.limit(5));
+/** Read the first page of questions **/
+List<QuestionSearchResult> questions = searchNav.results().next();
 
-/** Clean up **/
-BotExtra.closeDriver();
+/** Open the question page **/
+
+QuestionSearchResult searchResult = searchNav.firstResult();
+QuestionPageNavigator questionNav = authenticatedNav.getQuestionAt(searchResult.getLocation());
+
+/** Read first page of answers **/
+
+List<Answer> answers = questionNav.answers().next();
+
 ```
 ### Tests
 To run the integration tests the following properties need to be set:
@@ -68,7 +86,7 @@ To add a dependency on Quora loader using Maven, use the following:
 <dependency>
     <groupId>com.bluurr</groupId>
     <artifactId>quora_loader</artifactId>
-    <version>1.6.1</version>
+    <version>1.7.1</version>
 </dependency>
 ```
 

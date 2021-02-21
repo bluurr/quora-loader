@@ -1,21 +1,25 @@
 package com.bluurr.quora.page;
 
-import org.openqa.selenium.support.PageFactory;
-
-import com.github.webdriverextensions.Bot;
+import com.bluurr.quora.extension.EnhancedDriver;
 import com.github.webdriverextensions.WebDriverExtensionFieldDecorator;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 /**
  * Base for Selenium page object instances.
- * 
- * @author Bluurr
  *
  */
 public abstract class PageObject {
-	public PageObject() {
-		PageFactory.initElements(new WebDriverExtensionFieldDecorator(Bot.driver()), this); 
-	}
-	
-	protected void waitForLoaded() {
+
+	@Accessors(fluent = true)
+	@Getter(value = AccessLevel.PROTECTED)
+	private final EnhancedDriver driver;
+
+	public PageObject(final EnhancedDriver driver) {
+		this.driver = driver;
+		initElements(new WebDriverExtensionFieldDecorator(driver.webDriver()), this);
 	}
 }

@@ -1,6 +1,6 @@
-package com.bluurr.quora.it.config;
+package com.bluurr.quora.config;
 
-import com.bluurr.quora.domain.LoginCredential;
+import com.bluurr.quora.domain.user.LoginCredential;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,16 +14,21 @@ import org.testcontainers.containers.BrowserWebDriverContainer.VncRecordingMode;
 import java.io.File;
 
 /**
- * 
+ *
  * @author Bluurr
  *
  */
 @Configuration
 public class IntegrationConfig {
+
 	@Bean
 	public LoginCredential createLogin(final @Value("${quora.login.username}") String username,
 			final @Value("${quora.login.password}") String password) {
-		return new LoginCredential(username, password);
+
+		return LoginCredential.builder()
+				.username(username)
+				.password(password)
+				.build();
 	}
 
 	@Bean
@@ -35,7 +40,7 @@ public class IntegrationConfig {
 		 * Quora TOS require the user agent to include a contact email.
 		 */
 		options.addArguments("--user-agent=quora_loader;" + contactEmail + ";");
-		
+
 		return options;
 	}
 
@@ -44,7 +49,7 @@ public class IntegrationConfig {
 	public BrowserWebDriverContainer<?> createDriverContainer(final ChromeOptions options, final @Value("${container.record:false}") boolean record) {
 		BrowserWebDriverContainer<?> container = new BrowserWebDriverContainer<>().
 				withCapabilities(new DesiredCapabilities(options));
-		
+
 		if(record) {
 			container = container.withRecordingMode(VncRecordingMode.RECORD_ALL, new File("./"));
 		} else {
