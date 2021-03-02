@@ -31,19 +31,18 @@ Below is an example of how to login, search and load back a question.
 ```Java
 /** Set-up driver **/
 
-var driver = new ChromeDriver();
+final String BASE_URL = "https://www.quora.com";
+
+var driver = new EnhancedDriver(BASE_URL, new ChromeDriver());
 
 var credentials = LoginCredential.builder()
     .username(username)
     .password(password)
     .build();
 
-final String QUORA_LOCATION = "https://www.quora.com";
-
-
 // Start on login page
 
-LoginPageNavigator navigator = new LoginPageNavigator(BASE_URL, credentials, driver);
+LoginPageNavigator navigator = new LoginPageNavigator(credentials, driver);
 
 // Trigger a login
 

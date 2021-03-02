@@ -39,7 +39,7 @@ public abstract class BaseIntegrationTest {
 
   @BeforeEach
   public void beforeTest() {
-    this.driver = new EnhancedDriver(driverContainer.getWebDriver());
+    this.driver = new EnhancedDriver(BASE_URL, driverContainer.getWebDriver());
   }
 
   @AfterEach
@@ -48,7 +48,7 @@ public abstract class BaseIntegrationTest {
   }
 
   public AuthenticatedNavigator authenticatedNavigator() {
-    var nav = new LoginPageNavigator(BASE_URL, credential, driver);
+    var nav = new LoginPageNavigator(credential, driver);
     return nav.authenticate();
   }
 }

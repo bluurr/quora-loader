@@ -8,6 +8,7 @@ import com.bluurr.quora.page.question.QuestionPage;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class QuestionPageNavigator {
 
@@ -22,7 +23,10 @@ public class QuestionPageNavigator {
   }
 
   public Iterator<List<Answer>> answers() {
-    return new InfiniteScrollIterator<>(page);
+    return new InfiniteScrollIterator<>(page.answers());
   }
 
+  public Iterator<List<Supplier<Answer>>> deferAnswers() {
+    return new InfiniteScrollIterator<>(page.deferAnswers());
+  }
 }

@@ -18,8 +18,8 @@ class QuestionController(val questionSearchService: QuestionSearchService) {
 
 
     @GetMapping( "{id}" )
-    fun getQuestion(@PathVariable id: UUID): QuestionResponse {
+    fun getQuestion(@PathVariable id: UUID, @RequestParam(required = false, defaultValue = "5") answersLimit: Int): QuestionResponse {
 
-         return questionSearchService.getQuestion(id)
+         return questionSearchService.getQuestion(id, answersLimit)
     }
 }

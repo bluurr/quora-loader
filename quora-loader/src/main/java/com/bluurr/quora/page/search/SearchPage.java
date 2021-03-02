@@ -24,11 +24,6 @@ public class SearchPage extends PageObject implements InfiniteScrollPage<Questio
   }
 
   @Override
-  public int currentElementCount() {
-    return resultsComponent.size();
-  }
-
-  @Override
   public List<QuestionSearchResult> resultsWithSkip(final int skip) {
     return resultsComponent.stream()
         .skip(skip)

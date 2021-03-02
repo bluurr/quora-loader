@@ -26,7 +26,7 @@ class LoginPageNavigatorIT extends BaseIntegrationTest {
 
       // Given
 
-      var navigator = new LoginPageNavigator(BASE_URL, credential, driver());
+      var navigator = new LoginPageNavigator(credential, driver());
 
       // When
 
@@ -51,7 +51,7 @@ class LoginPageNavigatorIT extends BaseIntegrationTest {
 
       // Given
 
-      var navigator = new LoginPageNavigator(BASE_URL, credential, driver());
+      var navigator = new LoginPageNavigator(credential, driver());
 
       // When
 

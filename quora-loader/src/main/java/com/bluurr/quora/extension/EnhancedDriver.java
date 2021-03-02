@@ -19,6 +19,9 @@ public class EnhancedDriver implements Closeable {
   private static final int DEFAULT_TIMEOUT_SECONDS = 8;
   private static final int DEFAULT_WAIT_MILLISECOND = 500;
 
+  @Getter
+  private final String baseUrl;
+
   @Accessors(fluent = true)
   @Getter
   private final WebDriver webDriver;

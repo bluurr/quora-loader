@@ -6,13 +6,11 @@ import com.bluurr.quora.page.login.LoginPage;
 
 public class LoginPageNavigator {
 
-  private final String baseUri;
   private final LoginCredential credentials;
   private final EnhancedDriver driver;
   private final LoginPage loginPage;
 
-  public LoginPageNavigator(final String baseUri, final LoginCredential credentials, final EnhancedDriver driver) {
-    this.baseUri = baseUri;
+  public LoginPageNavigator(final LoginCredential credentials, final EnhancedDriver driver) {
     this.credentials = credentials;
     this.driver = driver;
     this.loginPage = new LoginPage(driver);
@@ -20,7 +18,7 @@ public class LoginPageNavigator {
 
   public AuthenticatedNavigator authenticate() {
 
-    driver.webDriver().navigate().to(baseUri);
+    driver.webDriver().navigate().to(driver.getBaseUrl());
 
     var session = loginPage.login(credentials);
 

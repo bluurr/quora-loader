@@ -20,25 +20,27 @@ class QuoraClient(private val credentials: LoginCredential) {
     private var session: UserSession? = null
 
     private val driver: EnhancedDriver by lazy {
-        EnhancedDriver(ChromeDriver())
+        EnhancedDriver(quoraUrl, ChromeDriver())
     }
 
-    fun fetchQuestionsForTerm(term: String): Sequence<QuestionSearchResult> {
+    fun findQuestionsForTerm(term: String): Sequence<QuestionSearchResult> {
 
         val authenticatedNav = authenticatedNavigator()
 
-        val questionPage = authenticatedNav.searchForTerm(term).results()
+        val questionResults = authenticatedNav.searchForTerm(term).results()
 
-        return pages(questionPage).flatten()
+        return pages(questionResults).flatten()
     }
 
     fun fetchAnswersForQuestionAt(href: String): Sequence<Answer> {
 
         val authenticatedNavigator = authenticatedNavigator()
 
-        val answerPage = authenticatedNavigator.getQuestionAt(href).answers()
+        val questionAnswers = authenticatedNavigator.getQuestionAt(href).deferAnswers()
 
-        return pages(answerPage).flatten()
+        return pages(questionAnswers).flatten().map {
+            it.get()
+        }
     }
 
     private fun authenticatedNavigator(): AuthenticatedNavigator {
@@ -50,7 +52,7 @@ class QuoraClient(private val credentials: LoginCredential) {
 
     private fun authenticate() : AuthenticatedNavigator {
 
-        val login = LoginPageNavigator(quoraUrl, credentials, driver)
+        val login = LoginPageNavigator(credentials, driver)
 
         val authenticatedNav =  login.authenticate()
 

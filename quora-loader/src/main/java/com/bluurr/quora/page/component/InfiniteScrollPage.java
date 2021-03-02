@@ -4,8 +4,6 @@ import java.util.List;
 
 public interface InfiniteScrollPage<T> {
 
-  int currentElementCount();
-
   List<T> resultsWithSkip(final int skip);
 
   void scrollNext();

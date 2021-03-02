@@ -17,26 +17,26 @@ class QuestionSearchService(val quoraClient: QuoraClient, cacheManager: CacheMan
 
     private val cache: Cache = cacheManager.getCache("questions") ?: throw RuntimeException("Cache not found")
 
-    fun getQuestion(id: UUID): QuestionResponse{
+    fun getQuestion(id: UUID, answersLimit: Int): QuestionResponse{
 
         val question = cache.get(id, QuestionSearchResponse::class.java) ?: throw QuestionNotFoundException()
 
-        val pageAnswers = quoraClient.fetchAnswersForQuestionAt(question.location)
+        val answers = quoraClient.fetchAnswersForQuestionAt(question.location)
 
-        val answers = pageAnswers
-            .take(1)
+        val answerResults = answers
+            .take(answersLimit)
             .map {
                 mapToAnswerDto(it)
             }
             .toList()
 
 
-        return QuestionResponse(question.id, question.ask, answers)
+        return QuestionResponse(question.id, question.ask, answerResults)
     }
 
     fun findQuestionsForTerm(term: String, limit: Int): List<QuestionSearchResponse> {
 
-        val questions = quoraClient.fetchQuestionsForTerm(term)
+        val questions = quoraClient.findQuestionsForTerm(term)
 
         val results = questions
             .take(limit)

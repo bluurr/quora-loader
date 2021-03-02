@@ -28,6 +28,10 @@ public class QuestionAnswerComponent extends WebComponent {
   @FindBy(xpath = ".//a[@class='user']")
   private List<WebElement> answerBy;
 
+  public boolean hasParagraphs() {
+    return paragraphs.size() > 0;
+  }
+
   public QuestionAnswerComponentDriverAware withDriver(final EnhancedDriver driver) {
     return new QuestionAnswerComponentDriverAware(driver);
   }
@@ -68,8 +72,7 @@ public class QuestionAnswerComponent extends WebComponent {
 
     private void expandReadMore(final WebElement clickTarget) {
 
-      // Javascript click due to native clicking unable to execute.
-      driver.executeJavascript("arguments[0].click();", clickTarget);
+      driver.executeJavascriptClick(clickTarget);
     }
   }
 }

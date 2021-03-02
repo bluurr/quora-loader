@@ -18,7 +18,7 @@ public class AuthenticatedNavigator {
 
   public SearchPageNavigator searchForTerm(final @NonNull String term) {
 
-    var target = driver.webDriver().getCurrentUrl() + "/search?q=" + encode(term, UTF_8) + "&type=answer";
+    var target = driver.getBaseUrl() + "/search?q=" + encode(term, UTF_8) + "&type=answer";
 
     driver.webDriver().navigate().to(target);
 

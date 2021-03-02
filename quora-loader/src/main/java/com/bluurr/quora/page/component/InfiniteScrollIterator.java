@@ -9,21 +9,27 @@ import java.util.List;
 public class InfiniteScrollIterator<R> implements Iterator<List<R>> {
 
   private final InfiniteScrollPage<R> page;
+
   private int offset = 0;
+  private int previousOffset = -1;
 
   @Override
   public boolean hasNext() {
-    return page.currentElementCount() > offset;
+    return previousOffset != offset;
   }
 
   @Override
   public List<R> next() {
+
+    if (previousOffset != -1) {
+      // Request to trigger the scroll (First page is expected to always be loaded at zero offset)
+      page.scrollNext();
+    }
+
     var results = page.resultsWithSkip(offset);
 
-    // Request to trigger the scroll
-    page.scrollNext();
-
     // Move the offset forward
+    previousOffset = offset;
     offset = results.size();
 
     return results;
