@@ -30,7 +30,6 @@ class QuestionSearchService(val quoraClient: QuoraClient, cacheManager: CacheMan
             }
             .toList()
 
-
         return QuestionResponse(question.id, question.ask, answerResults)
     }
 
@@ -65,8 +64,3 @@ fun mapToAnswerDto(answer: Answer): AnswerDto {
 
     return AnswerDto(answer.paragraphs)
 }
-
-
-
-
-
