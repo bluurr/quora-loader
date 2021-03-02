@@ -1,6 +1,7 @@
 package com.bluurr.quora.service
 
 import com.bluurr.quora.client.QuoraClient
+import com.bluurr.quora.client.provider.QuoraClientProvider
 import com.bluurr.quora.domain.QuestionSearchResult
 import com.nhaarman.mockitokotlin2.whenever
 import org.assertj.core.api.Assertions.assertThat
@@ -18,13 +19,16 @@ internal class QuestionSearchServiceTest {
     lateinit var client: QuoraClient
 
     @Mock
+    lateinit var clientProvider: QuoraClientProvider
+
+    @Mock
     lateinit var cache: Cache
 
     @InjectMocks
     lateinit var service: QuestionSearchService
 
     @Test
-    fun `given search has 1 result when find question for term then return 1 search result`() {
+    fun `Given one search result When finding question for search term Then return 1 search result`() {
 
         // Given
 
@@ -35,7 +39,7 @@ internal class QuestionSearchServiceTest {
             .title("Example Title")
             .build()
 
-
+        whenever(clientProvider.get()).thenReturn(client);
         whenever(client.findQuestionsForTerm(term)).thenReturn(sequence {
             yield(searchResult)
         })
