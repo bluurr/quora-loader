@@ -28,7 +28,7 @@ class BaseQuoraClient(private val credentials: LoginCredential, driverFactory: D
         return pages(questionResults).flatten()
     }
 
-    override fun fetchAnswersForQuestionAt(href: String): Sequence<Answer> {
+    override fun getAnswersForQuestionAt(href: String): Sequence<Answer> {
 
         val authenticatedNavigator = authenticatedNavigator()
 

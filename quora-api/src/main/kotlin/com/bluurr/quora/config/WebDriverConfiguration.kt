@@ -7,6 +7,8 @@ import com.bluurr.quora.extension.EnhancedDriver
 import io.github.bonigarcia.wdm.WebDriverManager
 import io.github.bonigarcia.wdm.config.DriverManagerType.CHROME
 import org.openqa.selenium.chrome.ChromeDriver
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Component
@@ -26,7 +28,6 @@ class WebDriverConfiguration {
        .toList()
     }
 
-
     @PostConstruct
     fun setupDriver() {
 
@@ -34,16 +35,15 @@ class WebDriverConfiguration {
     }
 
     @Component
-    class DriverFactory {
-
-        companion object {
-            private const val quoraUrl = "https://www.quora.com/"
-        }
+    class DriverFactory(val driverProperties: WebDriverProperties) {
 
         fun createDriver(): EnhancedDriver {
 
-            return EnhancedDriver(quoraUrl, ChromeDriver())
+            return EnhancedDriver(driverProperties.baseUrl, ChromeDriver())
         }
     }
-
 }
+
+@ConstructorBinding
+@ConfigurationProperties("web.driver")
+data class WebDriverProperties(val baseUrl: String)

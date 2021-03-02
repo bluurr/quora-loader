@@ -6,5 +6,5 @@ import java.io.Closeable
 
 interface QuoraClient : Closeable {
     fun findQuestionsForTerm(term: String): Sequence<QuestionSearchResult>
-    fun fetchAnswersForQuestionAt(href: String): Sequence<Answer>
+    fun getAnswersForQuestionAt(href: String): Sequence<Answer>
 }

@@ -20,7 +20,7 @@ class QuestionSearchService(private val clientProvider: QuoraClientProvider, pri
 
         quoraClient.use {
 
-            val answers = quoraClient.fetchAnswersForQuestionAt(question.location)
+            val answers = quoraClient.getAnswersForQuestionAt(question.location)
 
             val answerResults = answers
                 .take(answersLimit)

@@ -1,7 +1,7 @@
 package com.bluurr.quora.client.provider
 
 import com.bluurr.quora.client.QuoraClient
-import com.bluurr.quora.client.ReusableClient
+import com.bluurr.quora.client.ReusableQuoraClient
 import org.springframework.stereotype.Component
 import java.util.concurrent.BlockingDeque
 import java.util.concurrent.LinkedBlockingDeque
@@ -18,7 +18,7 @@ class BlockingQuoraClientProvider(clients: List<QuoraClient>) : QuoraClientProvi
 
         val reusableClients = clients.map {
 
-            ReusableClient(it, this::onRelease)
+            ReusableQuoraClient(it, this::onRelease)
         }
 
         pool = LinkedBlockingDeque(reusableClients)
