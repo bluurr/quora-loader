@@ -1,0 +1,4 @@
+spring:
+  cache:
+    cache-names: questions
+    type: simple
