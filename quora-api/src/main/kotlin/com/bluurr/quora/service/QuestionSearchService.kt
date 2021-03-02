@@ -8,14 +8,9 @@ import com.bluurr.quora.domain.dto.QuestionResponse
 import com.bluurr.quora.domain.dto.QuestionSearchResponse
 import com.bluurr.quora.domain.model.QuestionNotFoundException
 import org.springframework.cache.Cache
-import org.springframework.cache.CacheManager
-import org.springframework.stereotype.Service
 import java.util.*
 
-@Service
-class QuestionSearchService(val quoraClient: QuoraClient, cacheManager: CacheManager) {
-
-    private val cache: Cache = cacheManager.getCache("questions") ?: throw RuntimeException("Cache not found")
+class QuestionSearchService(private val quoraClient: QuoraClient, private val cache: Cache) {
 
     fun getQuestion(id: UUID, answersLimit: Int): QuestionResponse{
 
