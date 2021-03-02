@@ -1,5 +1,6 @@
 package com.bluurr.quora.client
 
+import com.bluurr.quora.config.WebDriverConfiguration.DriverFactory
 import com.bluurr.quora.domain.Answer
 import com.bluurr.quora.domain.QuestionSearchResult
 import com.bluurr.quora.domain.user.LoginCredential
@@ -7,20 +8,15 @@ import com.bluurr.quora.domain.user.UserSession
 import com.bluurr.quora.extension.EnhancedDriver
 import com.bluurr.quora.navigator.AuthenticatedNavigator
 import com.bluurr.quora.navigator.LoginPageNavigator
-import org.openqa.selenium.chrome.ChromeDriver
 import org.springframework.stereotype.Component
 
 @Component
-class QuoraClient(private val credentials: LoginCredential) {
-
-    companion object {
-        const val quoraUrl = "https://www.quora.com/"
-    }
+class QuoraClient(private val credentials: LoginCredential, driverFactory: DriverFactory) {
 
     private var session: UserSession? = null
 
     private val driver: EnhancedDriver by lazy {
-        EnhancedDriver(quoraUrl, ChromeDriver())
+        driverFactory.createDriver()
     }
 
     fun findQuestionsForTerm(term: String): Sequence<QuestionSearchResult> {
