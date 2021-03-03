@@ -6,3 +6,4 @@ web:
   driver:
     base-url: https://www.quora.com
     headless: true
+    contact-email: contact@example.com

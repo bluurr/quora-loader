@@ -54,9 +54,11 @@ class WebDriverConfiguration {
 
             val options = ChromeOptions()
 
-            if (driverProperties.headless) {
-                options.addArguments("--headless")
-            }
+            options.setHeadless(driverProperties.headless)
+
+            // Quora TOS require the user agent to include a contact email.
+            options.addArguments("--user-agent=quora_loader;${driverProperties.contactEmail};")
+
             return options
         }
     }
@@ -64,4 +66,4 @@ class WebDriverConfiguration {
 
 @ConstructorBinding
 @ConfigurationProperties("web.driver")
-data class WebDriverProperties(val baseUrl: String, val headless: Boolean)
+data class WebDriverProperties(val baseUrl: String, val headless: Boolean, val contactEmail: String)
