@@ -8,9 +8,7 @@ import com.bluurr.quora.domain.user.UserSession
 import com.bluurr.quora.extension.EnhancedDriver
 import com.bluurr.quora.navigator.AuthenticatedNavigator
 import com.bluurr.quora.navigator.LoginPageNavigator
-import org.springframework.context.annotation.Scope
 
-@Scope("prototype")
 class BaseQuoraClient(private val credentials: LoginCredential, driverFactory: DriverFactory): QuoraClient {
 
     private var session: UserSession? = null

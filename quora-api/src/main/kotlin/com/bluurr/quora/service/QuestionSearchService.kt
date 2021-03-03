@@ -12,15 +12,13 @@ import java.util.*
 
 class QuestionSearchService(private val clientProvider: QuoraClientProvider, private val cache: Cache) {
 
-    fun getQuestion(id: UUID, answersLimit: Int): QuestionResponse{
+    fun getQuestion(id: UUID, answersLimit: Int): QuestionResponse {
 
         val question = cache.get(id, QuestionSearchResponse::class.java) ?: throw QuestionNotFoundException()
 
-        val quoraClient = clientProvider.get()
+        return clientProvider.client { client ->
 
-        quoraClient.use {
-
-            val answers = quoraClient.getAnswersForQuestionAt(question.location)
+            val answers = client.getAnswersForQuestionAt(question.location)
 
             val answerResults = answers
                 .take(answersLimit)
@@ -29,17 +27,15 @@ class QuestionSearchService(private val clientProvider: QuoraClientProvider, pri
                 }
                 .toList()
 
-            return QuestionResponse(question.id, question.ask, answerResults)
+            QuestionResponse(question.id, question.ask, answerResults)
         }
     }
 
     fun findQuestionsForTerm(term: String, limit: Int): List<QuestionSearchResponse> {
 
-        val quoraClient = clientProvider.get()
+        val results = clientProvider.client { client ->
 
-        quoraClient.use {
-
-            val questions = quoraClient.findQuestionsForTerm(term)
+            val questions = client.findQuestionsForTerm(term)
 
             val results = questions
                 .take(limit)
@@ -48,14 +44,15 @@ class QuestionSearchService(private val clientProvider: QuoraClientProvider, pri
                 }
                 .toList()
 
-
-            // Update cache
-            results.forEach {
-                cache.put(it.id, it)
-            }
-
-            return results
+            results
         }
+
+        // Update cache
+        results.forEach {
+            cache.put(it.id, it)
+        }
+
+        return results
     }
 }
 

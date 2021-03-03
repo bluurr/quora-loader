@@ -1,7 +1,6 @@
 package com.bluurr.quora.client.provider
 
 import com.bluurr.quora.client.QuoraClient
-import com.bluurr.quora.client.ReusableQuoraClient
 import org.springframework.stereotype.Component
 import java.util.concurrent.BlockingDeque
 import java.util.concurrent.LinkedBlockingDeque
@@ -15,21 +14,26 @@ class BlockingQuoraClientProvider(clients: List<QuoraClient>) : QuoraClientProvi
     private val pool: BlockingDeque<QuoraClient>
 
     init {
-
-        val reusableClients = clients.map {
-
-            ReusableQuoraClient(it, this::onRelease)
-        }
-
-        pool = LinkedBlockingDeque(reusableClients)
+        pool = LinkedBlockingDeque(clients)
     }
 
-    override fun get(): QuoraClient {
+    override fun <T> client(block: (QuoraClient) -> T): T {
+
+        val client = acquire()
+
+        try {
+            return block(client)
+        } finally {
+            release(client)
+        }
+    }
+
+    private fun acquire(): QuoraClient {
         // Take the last client that was used
         return pool.takeLast()
     }
 
-    private fun onRelease(client: QuoraClient) {
+    private fun release(client: QuoraClient) {
         pool.put(client)
     }
 }
