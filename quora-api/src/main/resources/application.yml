@@ -7,3 +7,4 @@ web:
     base-url: https://www.quora.com
     headless: true
     contact-email: contact@example.com
+    binary: ${GOOGLE_CHROME_SHIM:}

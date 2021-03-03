@@ -8,6 +8,8 @@ import io.github.bonigarcia.wdm.WebDriverManager
 import io.github.bonigarcia.wdm.config.DriverManagerType.CHROME
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Bean
@@ -38,6 +40,8 @@ class WebDriverConfiguration {
     @Component
     class DriverFactory(val driverProperties: WebDriverProperties) {
 
+        private val log: Logger = LoggerFactory.getLogger(this.javaClass)
+
         fun createDriver(): EnhancedDriver {
 
             return EnhancedDriver(driverProperties.baseUrl, chromeDriver())
@@ -58,6 +62,13 @@ class WebDriverConfiguration {
             options.addArguments("--no-sandbox")
             options.addArguments("--disable-dev-shm-usage")
 
+            if (driverProperties.binary.isNotBlank()) {
+
+                log.info("Overwriting binary location: ${driverProperties.binary}")
+
+                options.setBinary(driverProperties.binary)
+            }
+
             // Quora TOS require the user agent to include a contact email.
             options.addArguments("--user-agent=quora_loader;${driverProperties.contactEmail};")
 
@@ -68,4 +79,4 @@ class WebDriverConfiguration {
 
 @ConstructorBinding
 @ConfigurationProperties("web.driver")
-data class WebDriverProperties(val baseUrl: String, val headless: Boolean, val contactEmail: String)
+data class WebDriverProperties(val baseUrl: String, val headless: Boolean, val contactEmail: String, val binary: String)
