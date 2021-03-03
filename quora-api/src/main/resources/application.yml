@@ -5,3 +5,4 @@ spring:
 web:
   driver:
     base-url: https://www.quora.com
+    headless: true
