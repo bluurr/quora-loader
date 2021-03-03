@@ -59,8 +59,6 @@ class WebDriverConfiguration {
             val options = ChromeOptions()
 
             options.setHeadless(driverProperties.headless)
-            options.addArguments("--no-sandbox")
-            options.addArguments("--disable-dev-shm-usage")
 
             if (driverProperties.binary.isNotBlank()) {
 
