@@ -2,7 +2,7 @@ package com.bluurr.quora.config
 
 import com.bluurr.quora.client.BaseQuoraClient
 import com.bluurr.quora.client.QuoraClient
-import com.bluurr.quora.domain.user.LoginCredential
+import com.bluurr.quora.model.user.LoginCredential
 import com.bluurr.quora.extension.EnhancedDriver
 import io.github.bonigarcia.wdm.WebDriverManager
 import io.github.bonigarcia.wdm.config.DriverManagerType.CHROME

@@ -1,4 +1,4 @@
-package com.bluurr.quora.domain.model
+package com.bluurr.quora.model.domain
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

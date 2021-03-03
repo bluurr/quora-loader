@@ -1,7 +1,7 @@
 package com.bluurr.quora.page.question;
 
-import com.bluurr.quora.domain.Answer;
-import com.bluurr.quora.domain.Question;
+import com.bluurr.quora.model.Answer;
+import com.bluurr.quora.model.Question;
 import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.PageObject;
 import com.bluurr.quora.page.component.InfiniteScrollPage;

@@ -1,6 +1,6 @@
 package com.bluurr.quora.page.question;
 
-import com.bluurr.quora.domain.Answer;
+import com.bluurr.quora.model.Answer;
 import com.bluurr.quora.extension.EnhancedDriver;
 import com.github.webdriverextensions.WebComponent;
 import lombok.RequiredArgsConstructor;

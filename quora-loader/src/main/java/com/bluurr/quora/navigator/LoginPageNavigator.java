@@ -1,6 +1,6 @@
 package com.bluurr.quora.navigator;
 
-import com.bluurr.quora.domain.user.LoginCredential;
+import com.bluurr.quora.model.user.LoginCredential;
 import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.login.LoginPage;
 

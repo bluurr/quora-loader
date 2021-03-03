@@ -1,4 +1,4 @@
-package com.bluurr.quora.domain.user;
+package com.bluurr.quora.model.user;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package com.bluurr.quora.client
 
-import com.bluurr.quora.domain.Answer
-import com.bluurr.quora.domain.QuestionSearchResult
+import com.bluurr.quora.model.Answer
+import com.bluurr.quora.model.QuestionSearchResult
 import java.io.Closeable
 
 interface QuoraClient : Closeable {

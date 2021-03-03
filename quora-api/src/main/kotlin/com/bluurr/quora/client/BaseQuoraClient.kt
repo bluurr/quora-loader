@@ -1,10 +1,10 @@
 package com.bluurr.quora.client
 
 import com.bluurr.quora.config.WebDriverConfiguration.DriverFactory
-import com.bluurr.quora.domain.Answer
-import com.bluurr.quora.domain.QuestionSearchResult
-import com.bluurr.quora.domain.user.LoginCredential
-import com.bluurr.quora.domain.user.UserSession
+import com.bluurr.quora.model.Answer
+import com.bluurr.quora.model.QuestionSearchResult
+import com.bluurr.quora.model.user.LoginCredential
+import com.bluurr.quora.model.user.UserSession
 import com.bluurr.quora.extension.EnhancedDriver
 import com.bluurr.quora.navigator.AuthenticatedNavigator
 import com.bluurr.quora.navigator.LoginPageNavigator

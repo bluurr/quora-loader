@@ -1,12 +1,12 @@
 package com.bluurr.quora.service
 
 import com.bluurr.quora.client.provider.QuoraClientProvider
-import com.bluurr.quora.domain.Answer
-import com.bluurr.quora.domain.QuestionSearchResult
-import com.bluurr.quora.domain.dto.AnswerDto
-import com.bluurr.quora.domain.dto.QuestionResponse
-import com.bluurr.quora.domain.dto.QuestionSearchResponse
-import com.bluurr.quora.domain.model.QuestionNotFoundException
+import com.bluurr.quora.model.Answer
+import com.bluurr.quora.model.QuestionSearchResult
+import com.bluurr.quora.model.dto.AnswerDto
+import com.bluurr.quora.model.dto.QuestionResponse
+import com.bluurr.quora.model.dto.QuestionSearchResponse
+import com.bluurr.quora.model.domain.QuestionNotFoundException
 import org.springframework.cache.Cache
 import java.util.*
 

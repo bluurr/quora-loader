@@ -1,3 +1,3 @@
-package com.bluurr.quora.domain.dto
+package com.bluurr.quora.model.dto
 
 data class AnswerDto(val text: List<String>)

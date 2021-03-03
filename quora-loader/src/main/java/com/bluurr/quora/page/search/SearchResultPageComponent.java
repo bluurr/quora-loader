@@ -1,6 +1,6 @@
 package com.bluurr.quora.page.search;
 
-import com.bluurr.quora.domain.QuestionSearchResult;
+import com.bluurr.quora.model.QuestionSearchResult;
 import com.github.webdriverextensions.WebComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

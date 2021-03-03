@@ -1,4 +1,4 @@
-package com.bluurr.quora.domain;
+package com.bluurr.quora.model;
 
 import lombok.Builder;
 import lombok.Value;

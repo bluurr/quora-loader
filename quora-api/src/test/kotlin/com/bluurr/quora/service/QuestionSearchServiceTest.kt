@@ -2,10 +2,10 @@ package com.bluurr.quora.service
 
 import com.bluurr.quora.client.QuoraClient
 import com.bluurr.quora.client.provider.QuoraClientProvider
-import com.bluurr.quora.domain.Answer
-import com.bluurr.quora.domain.QuestionSearchResult
-import com.bluurr.quora.domain.dto.QuestionSearchResponse
-import com.bluurr.quora.domain.model.QuestionNotFoundException
+import com.bluurr.quora.model.Answer
+import com.bluurr.quora.model.QuestionSearchResult
+import com.bluurr.quora.model.dto.QuestionSearchResponse
+import com.bluurr.quora.model.domain.QuestionNotFoundException
 import com.nhaarman.mockitokotlin2.whenever
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows

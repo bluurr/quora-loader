@@ -1,13 +1,14 @@
 package com.bluurr.quora.controller
 
-import com.bluurr.quora.domain.dto.QuestionResponse
-import com.bluurr.quora.domain.dto.QuestionSearchResponse
+import com.bluurr.quora.model.dto.QuestionResponse
+import com.bluurr.quora.model.dto.QuestionSearchResponse
 import com.bluurr.quora.service.QuestionSearchService
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("questions")
+@RequestMapping(path=[ "questions" ], produces = [ APPLICATION_JSON_VALUE ])
 class QuestionController(val questionSearchService: QuestionSearchService) {
 
     @GetMapping

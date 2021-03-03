@@ -1,9 +1,7 @@
-package com.bluurr.quora.domain;
+package com.bluurr.quora.model;
 
 import lombok.Builder;
 import lombok.Value;
-
-import java.util.List;
 
 /**
  * Question posted by a Quora user.

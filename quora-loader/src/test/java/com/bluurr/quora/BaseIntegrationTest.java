@@ -1,7 +1,7 @@
 package com.bluurr.quora;
 
 import com.bluurr.quora.config.IntegrationConfig;
-import com.bluurr.quora.domain.user.LoginCredential;
+import com.bluurr.quora.model.user.LoginCredential;
 import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.navigator.AuthenticatedNavigator;
 import com.bluurr.quora.navigator.LoginPageNavigator;

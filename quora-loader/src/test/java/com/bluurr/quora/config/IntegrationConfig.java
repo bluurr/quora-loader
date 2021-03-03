@@ -1,6 +1,6 @@
 package com.bluurr.quora.config;
 
-import com.bluurr.quora.domain.user.LoginCredential;
+import com.bluurr.quora.model.user.LoginCredential;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Value;

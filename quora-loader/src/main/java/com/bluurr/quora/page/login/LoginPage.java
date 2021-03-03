@@ -1,8 +1,8 @@
 package com.bluurr.quora.page.login;
 
-import com.bluurr.quora.domain.user.InvalidLoginException;
-import com.bluurr.quora.domain.user.LoginCredential;
-import com.bluurr.quora.domain.user.UserSession;
+import com.bluurr.quora.model.user.InvalidLoginException;
+import com.bluurr.quora.model.user.LoginCredential;
+import com.bluurr.quora.model.user.UserSession;
 import com.bluurr.quora.extension.EnhancedDriver;
 import com.bluurr.quora.page.PageObject;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.bluurr.quora.domain.dto
+package com.bluurr.quora.model.dto
 
 import java.util.*
 

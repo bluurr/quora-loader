@@ -1,6 +1,6 @@
 package com.bluurr.quora.navigator;
 
-import com.bluurr.quora.domain.user.UserSession;
+import com.bluurr.quora.model.user.UserSession;
 import com.bluurr.quora.extension.EnhancedDriver;
 import lombok.Getter;
 import lombok.NonNull;

@@ -1,8 +1,8 @@
 package com.bluurr.quora.navigator;
 
 import com.bluurr.quora.BaseIntegrationTest;
-import com.bluurr.quora.domain.user.InvalidLoginException;
-import com.bluurr.quora.domain.user.LoginCredential;
+import com.bluurr.quora.model.user.InvalidLoginException;
+import com.bluurr.quora.model.user.LoginCredential;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
