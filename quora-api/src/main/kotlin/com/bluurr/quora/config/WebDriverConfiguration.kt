@@ -55,6 +55,8 @@ class WebDriverConfiguration {
             val options = ChromeOptions()
 
             options.setHeadless(driverProperties.headless)
+            options.addArguments("--no-sandbox")
+            options.addArguments("--disable-dev-shm-usage")
 
             // Quora TOS require the user agent to include a contact email.
             options.addArguments("--user-agent=quora_loader;${driverProperties.contactEmail};")

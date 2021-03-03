@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.bluurr</groupId>
             <artifactId>quora_loader</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
