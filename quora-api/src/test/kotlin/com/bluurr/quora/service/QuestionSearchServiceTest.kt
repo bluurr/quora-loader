@@ -2,30 +2,39 @@ package com.bluurr.quora.service
 
 import com.bluurr.quora.client.QuoraClient
 import com.bluurr.quora.client.provider.QuoraClientProvider
+import com.bluurr.quora.domain.Answer
 import com.bluurr.quora.domain.QuestionSearchResult
+import com.bluurr.quora.domain.dto.QuestionSearchResponse
+import com.bluurr.quora.domain.model.QuestionNotFoundException
 import com.nhaarman.mockitokotlin2.whenever
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.cache.Cache
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class QuestionSearchServiceTest {
 
     @Mock
-    lateinit var client: QuoraClient
+    private lateinit var client: QuoraClient
 
     @Mock
-    lateinit var clientProvider: QuoraClientProvider
+    private lateinit var cache: Cache
 
-    @Mock
-    lateinit var cache: Cache
+    private lateinit var service: QuestionSearchService
 
-    @InjectMocks
-    lateinit var service: QuestionSearchService
+    @BeforeEach
+    fun prepare() {
+
+        val clientProvider = TestDoubleQuoraClientProvider(client)
+
+        service = QuestionSearchService(clientProvider, cache)
+    }
 
     @Test
     fun `Given one search result When finding question for search term Then return 1 search result`() {
@@ -39,7 +48,6 @@ internal class QuestionSearchServiceTest {
             .title("Example Title")
             .build()
 
-        whenever(clientProvider.get()).thenReturn(client);
         whenever(client.findQuestionsForTerm(term)).thenReturn(sequence {
             yield(searchResult)
         })
@@ -59,4 +67,59 @@ internal class QuestionSearchServiceTest {
         }
     }
 
+    @Test
+    fun `Given question exists When fetching full question Then return question`() {
+
+        // Given
+
+        val location = "https://www.example.com/question-here"
+
+        whenever(client.getAnswersForQuestionAt(location)).thenReturn(sequence {
+
+            val answer = Answer.builder()
+                .answerBy("Bob")
+                .paragraphs(listOf("Hello", "World"))
+                .build()
+
+            yield(answer)
+        })
+
+        val searchResult = QuestionSearchResponse(id = UUID.randomUUID(), ask = "What is Java", location)
+
+        whenever(cache.get(searchResult.id, QuestionSearchResponse::class.java)).thenReturn(searchResult)
+
+        // When
+
+        val result = service.getQuestion(searchResult.id, 1)
+
+        // Then
+
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(searchResult.id)
+        assertThat(result.answers).isNotEmpty
+    }
+
+    @Test
+    fun `Given invalid question id When fetching full question Then throw not found exception`() {
+
+
+        val error = assertThrows(QuestionNotFoundException::class.java) {
+
+            val invalidQuestionId = UUID.randomUUID()
+
+            service.getQuestion(invalidQuestionId, 1)
+        }
+
+        // Then
+
+        assertThat(error).hasMessage("Question not found")
+    }
+
+}
+
+class TestDoubleQuoraClientProvider(private val client:QuoraClient): QuoraClientProvider {
+
+    override fun <T> client(block: (QuoraClient) -> T): T {
+        return block(client)
+    }
 }
