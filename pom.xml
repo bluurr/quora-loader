@@ -4,7 +4,7 @@
 
     <groupId>com.bluurr</groupId>
     <artifactId>quora-parent</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>1.8.0</version>
     <packaging>pom</packaging>
 
     <url>https://github.com/bluurr/QuoraLoader/</url>
