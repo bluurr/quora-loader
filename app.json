@@ -1,0 +1,41 @@
+{
+  "name": "Unoffical Quora API",
+  "description": "This application provides an API interface for querying Quora",
+  "repository": "https://github.com/bluurr/quora-loader",
+  "env": {
+    "MAVEN_CUSTOM_OPTS": {
+      "description": "The maven build properties.",
+      "value": "-Dgpg.skip -B -DskipTests"
+    },
+    "QUORA_LOGIN_USERNAME": {
+      "description": "The login username for accessing the Quora platform.",
+      "value": "changeme@example.com"
+    },
+    "QUORA_LOGIN_PASSWORD": {
+      "description": "The login password for accessing the Quora platform.",
+      "value": "changeme"
+    },
+    "WEB_DRIVER_CONTACT_EMAIL": {
+      "description": "The contact email to be provided when querying Quora",
+      "value": "changeme@example.com"
+    },
+    "WEB_DRIVER_HEADLESS": {
+      "description": "Should the chrome driver run in headless mode.",
+      "value": "true"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-apt"
+    }
+  ]
+}
