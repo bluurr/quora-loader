@@ -8,8 +8,7 @@
         <version>1.8.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quora_loader</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
+    <artifactId>quora-loader</artifactId>
     <description>A realtime read-only locator and extraction library for Quora questions and answers.</description>
 
     <properties>

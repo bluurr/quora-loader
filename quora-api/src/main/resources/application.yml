@@ -2,6 +2,9 @@ spring:
   cache:
     cache-names: questions
     type: simple
+server:
+  error:
+    include-message: always
 web:
   driver:
     base-url: https://www.quora.com

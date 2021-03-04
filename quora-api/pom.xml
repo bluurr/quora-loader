@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.bluurr</groupId>
-            <artifactId>quora_loader</artifactId>
+            <artifactId>quora-loader</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
@@ -44,6 +44,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
 

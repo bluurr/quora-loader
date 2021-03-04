@@ -75,7 +75,7 @@ To run the integration tests the following properties need to be set:
 
 ## Compliance
 
-As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for machine driven tools -
+As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for a machine driven tools -
 
 1. You must use a descriptive user agent header.
 2. You must follow robots.txt at all times.
@@ -94,7 +94,7 @@ To add a dependency on Quora loader using Maven, use the following:
 ```xml
 <dependency>
     <groupId>com.bluurr</groupId>
-    <artifactId>quora_loader</artifactId>
+    <artifactId>quora-loader</artifactId>
     <version>1.8.0</version>
 </dependency>
 ```
