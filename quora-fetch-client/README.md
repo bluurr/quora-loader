@@ -9,8 +9,8 @@ This library uses Java and the Selenium framework to read questions and answers 
 ### Functions
 
 - Authentication
-- Question Searching
-- Question retrieval including answers
+- Question searching
+- Question fetch with answers
 
 ### Prerequisite
 
