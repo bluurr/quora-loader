@@ -8,11 +8,11 @@
         <version>1.8.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quora-loader</artifactId>
-    <description>A realtime read-only locator and extraction library for Quora questions and answers.</description>
+    <artifactId>quora-fetch-client</artifactId>
+    <description>A realtime fetch client library for fetching Quora questions and answers.</description>
 
     <properties>
-        <project.lib.spring.version>5.3.4</project.lib.spring.version>
+        <project.spring.version>5.3.4</project.spring.version>
         <project.lombok.version>1.18.18</project.lombok.version>
     </properties>
 
@@ -73,14 +73,14 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${project.lib.spring.version}</version>
+            <version>${project.spring.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${project.lib.spring.version}</version>
+            <version>${project.spring.version}</version>
             <scope>test</scope>
         </dependency>
 

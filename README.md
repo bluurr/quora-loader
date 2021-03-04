@@ -1,77 +1,38 @@
 # Quora loader
 
-A read-only locator and extraction library for Quora questions and answers.
-
 [![Build Status](https://dev.azure.com/open-source-bluurr-io/quora-loader-project/_apis/build/status/bluurr.quora-loader?branchName=master)](https://dev.azure.com/open-source-bluurr-io/quora-loader-project/_build/latest?definitionId=2&branchName=master)
+
+An unofficial POC client library and API implementation allowing the fetching of [Quora](https://www.quora.com/) questions and answers.
 
 ## Getting Started
 
-This library allows you to login, search and retrieve answers for a question. As no public API is provided by the Quora
-platform at this current time, the library uses the Selenium framework to retrieve the data from the Quora platform.
+> When using this project you must follow the Quora terms of service [TOS](https://www.quora.com/about/tos).
 
-### Prerequisite
+There are two component available within this project.
 
-The library requires the following minimum versions
+### Quora Fetch Client
 
-1. Java 11
-2. Maven 3 or higher
-3. Docker (For Testing Only)
+An unofficial client library allowing the fetching of [Quora](https://www.quora.com/) questions and answers.
 
-#### Selenium
+[Read More](./quora-fetch-client/README.md)
 
-Selenium testing is performed within Docker using the Chrome Selenium image.
+#### Maven
 
-To enable headless mode: `-Dwebdriver.headless={true|false}`
-To enable recording output: `-Dcontainer.record={true|false}`
-
-### Usage
-
-Below is an example of how to login, search and load back a question.
-
-```Java
-/** Set-up driver **/
-
-final String BASE_URL = "https://www.quora.com";
-
-var driver = new EnhancedDriver(BASE_URL, new ChromeDriver());
-
-var credentials = LoginCredential.builder()
-    .username(username)
-    .password(password)
-    .build();
-
-// Start on login page
-
-LoginPageNavigator navigator = new LoginPageNavigator(credentials, driver);
-
-// Trigger a login
-
-AuthenticatedNavigator authenticatedNav = navigator.authenticate();
-
-/** Search the term Java on the Quora platform **/
-
-SearchPageNavigator searchNav = authenticatedNav.searchForTerm(SEARCH_TERM);
-
-/** Read the first page of questions **/
-List<QuestionSearchResult> questions = searchNav.results().next();
-
-/** Open the question page **/
-
-QuestionSearchResult searchResult = searchNav.firstResult();
-QuestionPageNavigator questionNav = authenticatedNav.getQuestionAt(searchResult.getLocation());
-
-/** Read first page of answers **/
-
-List<Answer> answers = questionNav.answers().next();
-
+```xml
+<dependency>
+    <groupId>com.bluurr</groupId>
+    <artifactId>quora-fetch-client</artifactId>
+    <version>1.8.0</version>
+</dependency>
 ```
 
-### Tests
+### Quora API
 
-To run the integration tests the following properties need to be set:
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-1. `-Dquora.login.username={username}`
-2. `-Dquora.login.password={password}`
+An unofficial API allowing the fetching of [Quora](https://www.quora.com/) questions and answers.
+
+[Read More](./quora-api/README.md)
 
 ## Compliance
 
@@ -81,23 +42,6 @@ As per the Quora terms of service [TOS](https://www.quora.com/about/tos) for a m
 2. You must follow robots.txt at all times.
 3. Your access must not adversely affect any aspect of the Quora Platform’s functioning.
 4. You must make it clear how to contact you, either in your user agent string, or on your website if you have one.
-
-### Note
-
-The integration tests require the following property to be define `-Dquora.contact={contact_here}` to meet these
-requirements.
-
-## Maven
-
-To add a dependency on Quora loader using Maven, use the following:
-
-```xml
-<dependency>
-    <groupId>com.bluurr</groupId>
-    <artifactId>quora-loader</artifactId>
-    <version>1.8.0</version>
-</dependency>
-```
 
 ## License
 

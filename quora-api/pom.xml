@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.bluurr</groupId>
-            <artifactId>quora-loader</artifactId>
+            <artifactId>quora-fetch-client</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
