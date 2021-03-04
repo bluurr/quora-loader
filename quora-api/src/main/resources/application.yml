@@ -1,0 +1,13 @@
+spring:
+  cache:
+    cache-names: questions
+    type: simple
+server:
+  error:
+    include-message: always
+web:
+  driver:
+    base-url: https://www.quora.com
+    headless: true
+    contact-email: contact@example.com
+    binary: ${GOOGLE_CHROME_SHIM:}

@@ -1,74 +1,33 @@
-# Compiled class file
-*.class
-**/target/**
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-drivers
-
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-
-# Logs and databases #
-######################
-*.log
-*.sqlite
-*.out
-
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-*.DS_Store
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
-*~
-
-# Maven #
-#########
-.classpath
-.project
-.settings/
+HELP.md
 target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# NetBeans #
-############
-nbproject/private/
-/nb-configuration.xml
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# IDEA
-############
+### IntelliJ IDEA ###
 .idea
-webdriverextensions.iml
+*.iws
 *.iml
+*.ipr
 
-# Other
-*.flv
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
