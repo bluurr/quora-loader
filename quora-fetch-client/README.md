@@ -27,7 +27,7 @@ To test the loader use the following command (update the `changeme` to the corre
 ```
 
 - The username used to log into Quora `quora.login.username` 
-- The Password used to log into Quora `quora.login.password`
+- The password used to log into Quora `quora.login.password`
 - The contact information to be supplied in the user agent as required by [Quora TOS](https://www.quora.com/about/tos) `quora.contact`
 
 #### Selenium
