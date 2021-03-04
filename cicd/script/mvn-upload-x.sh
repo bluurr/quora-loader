@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-POM_FILE=$(ls *.pom)
+MODULE=quora-fetch-client
+POM_FILE=$(ls $MODULE/*.pom)
 
 echo "Using POM_FILE: ${POM_FILE}"
 
@@ -12,6 +12,8 @@ ARTIFACT_ID=$(mvn -f ${POM_FILE} help:evaluate -Dexpression=project.artifactId -
 ARTIFACT_ID_WITH_VERSION="${ARTIFACT_ID}-${VERSION}"
 
 echo "MVN: ${GROUP_ID}:${ARTIFACT_ID}:${VERSION}"
+
+cd ${MODULE}
 
 ## Upload files to nexus
 mvn deploy:deploy-file \

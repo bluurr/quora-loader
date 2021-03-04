@@ -58,6 +58,14 @@ stages:
               GPG_PASSPHRASE: $(gpg_key_passphrase)
 
           - task: CopyFiles@2
+            displayName: 'Copy parent artifact(s) to staging directory.'
+            inputs:
+              sourceFolder: '$(Build.SourcesDirectory)'
+              contents: |
+                pom.xml
+              targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
+
+          - task: CopyFiles@2
             displayName: 'Copy artifact(s) to staging directory.'
             inputs:
               sourceFolder: '$(Build.SourcesDirectory)/quora-fetch-client/target'
@@ -65,7 +73,8 @@ stages:
                 *.jar
                 *.asc
                 *.pom
-              targetFolder: '$(Build.ArtifactStagingDirectory)/target/'
+              targetFolder: '$(Build.ArtifactStagingDirectory)/target/quora-fetch-client'
+
 
           - task: CopyFiles@2
             displayName: 'Copy  to staging directory.'
