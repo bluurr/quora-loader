@@ -25,7 +25,7 @@ public class QuestionAnswerComponent extends WebComponent {
   @FindBy(xpath = ".//*[contains(@class, 'puppeteer_test_answer_content')]//span//span[text()='(more)']")
   private List<WebElement> readMore;
 
-  @FindBy(xpath = ".//a[@class='user']")
+  @FindBy(xpath = ".//a[contains(@href, 'profile')]//span//span")
   private List<WebElement> answerBy;
 
   public boolean hasParagraphs() {

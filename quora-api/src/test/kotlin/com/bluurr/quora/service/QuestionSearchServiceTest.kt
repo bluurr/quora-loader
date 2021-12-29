@@ -16,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.cache.Cache
 import java.util.*
+import java.util.function.Consumer
 
 @ExtendWith(MockitoExtension::class)
 internal class QuestionSearchServiceTest {
@@ -59,12 +60,14 @@ internal class QuestionSearchServiceTest {
         // Then
 
         assertThat(result).hasSize(1)
-        assertThat(result).allSatisfy {
+
+
+        assertThat(result).allSatisfy(Consumer {
 
             assertThat(it.id).isNotNull
             assertThat(it.ask).isEqualTo("Example Title")
             assertThat(it.location).isEqualTo("http://example.com/1")
-        }
+        })
     }
 
     @Test
