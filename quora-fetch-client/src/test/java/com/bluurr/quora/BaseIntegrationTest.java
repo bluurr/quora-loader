@@ -27,8 +27,8 @@ public abstract class BaseIntegrationTest {
   protected static final String BASE_URL = "https://www.quora.com";
 
   @Autowired
-  @Container
-  private BrowserWebDriverContainer<?> driverContainer;
+  @Container // override the image due to this outstanding issue - https://github.com/testcontainers/testcontainers-java/pull/4686/files
+  private BrowserWebDriverContainer<?> driverContainer = new BrowserWebDriverContainer<>("selenium/standalone-chrome");
 
   @Autowired
   private LoginCredential credential;
