@@ -42,7 +42,8 @@ public class IntegrationConfig {
   @Bean
   @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
   public BrowserWebDriverContainer<?> createDriverContainer(final ChromeOptions options, final @Value("${container.record:false}") boolean record) {
-    BrowserWebDriverContainer<?> container = new BrowserWebDriverContainer<>().
+    // override the image due to this outstanding issue - https://github.com/testcontainers/testcontainers-java/pull/4686/files
+    BrowserWebDriverContainer<?> container = new BrowserWebDriverContainer<>("selenium/standalone-chrome").
         withCapabilities(new DesiredCapabilities(options));
 
     if (record) {
