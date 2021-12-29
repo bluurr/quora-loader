@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SearchPage extends PageObject implements InfiniteScrollPage<QuestionSearchResult> {
 
-  @FindBy(xpath = "//*[contains(@class, 'CssComponent')]//*[contains(@class, 'qu-fontSize--regular')]")
+  @FindBy(xpath = "//*[contains(@id, 'mainContent')]//*[contains(@class, 'q-box') and contains(@class, 'qu-pb--tiny')]")
   private List<SearchResultPageComponent> resultsComponent;
 
   public SearchPage(final EnhancedDriver driver) {

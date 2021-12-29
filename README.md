@@ -22,7 +22,7 @@ An unofficial client library allowing the fetching of [Quora](https://www.quora.
 <dependency>
     <groupId>com.bluurr</groupId>
     <artifactId>quora-fetch-client</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 </dependency>
 ```
 

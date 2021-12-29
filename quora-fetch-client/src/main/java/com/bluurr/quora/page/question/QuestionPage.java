@@ -25,7 +25,7 @@ public class QuestionPage extends PageObject {
   @FindBy(xpath = "//*[contains(@class, 'puppeteer_test_question_title')]//*")
   private List<WebElement> titles;
 
-  @FindBy(xpath = "//*[contains(@class, 'CssComponent')]/*[contains(@class, 'q-box')]")
+  @FindBy(xpath = "//*[contains(@class, 'q-box') and contains(@class, 'qu-pb--medium') and contains(@class, 'qu-borderBottom')]")
   private List<QuestionAnswerComponent> answerComponents;
 
   public QuestionPage(final EnhancedDriver driver) {

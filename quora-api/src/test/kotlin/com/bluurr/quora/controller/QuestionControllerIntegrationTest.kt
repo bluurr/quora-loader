@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import java.util.*
+import java.util.function.Consumer
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class QuestionControllerIntegrationTest {
@@ -38,12 +39,12 @@ internal class QuestionControllerIntegrationTest {
 
             assertThat(results).isNotEmpty
 
-            assertThat(results).allSatisfy {
+            assertThat(results).allSatisfy(Consumer {
 
                 assertThat(it.id).isNotNull
                 assertThat(it.ask).isNotBlank
                 assertThat(it.location).isNotBlank
-            }
+            })
         }
 
         @Test
