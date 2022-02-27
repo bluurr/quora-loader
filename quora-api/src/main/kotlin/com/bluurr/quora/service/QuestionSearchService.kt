@@ -7,10 +7,13 @@ import com.bluurr.quora.model.dto.AnswerDto
 import com.bluurr.quora.model.dto.QuestionResponse
 import com.bluurr.quora.model.dto.QuestionSearchResponse
 import com.bluurr.quora.model.domain.QuestionNotFoundException
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.cache.Cache
+import org.springframework.stereotype.Service
 import java.util.*
 
-class QuestionSearchService(private val clientProvider: QuoraClientProvider, private val cache: Cache) {
+@Service
+class QuestionSearchService(private val clientProvider: QuoraClientProvider, @Qualifier("questionCache") private val cache: Cache) {
 
     fun getQuestion(id: UUID, answersLimit: Int): QuestionResponse {
 

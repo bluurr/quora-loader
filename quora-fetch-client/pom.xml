@@ -142,6 +142,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+
+                <configuration>
+                    <excludedGroups>usesQuoraPlatform</excludedGroups>
+                </configuration>
             </plugin>
 
             <plugin>

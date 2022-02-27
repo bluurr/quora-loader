@@ -4,16 +4,19 @@ import com.bluurr.quora.BaseIntegrationTest;
 import com.bluurr.quora.model.user.InvalidLoginException;
 import com.bluurr.quora.model.user.LoginCredential;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
 
+import static com.bluurr.quora.TestTag.USES_QUORA_PLATFORM;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class LoginPageNavigatorIT extends BaseIntegrationTest {
+@Tag(USES_QUORA_PLATFORM)
+class LoginPageNavigatorIntegrationTest extends BaseIntegrationTest {
 
   @Nested
   class ValidCredentialsTest {

@@ -9,5 +9,4 @@ class QuoraApiApplicationIntegrationTest {
     @Test
     fun contextLoads() {
     }
-
 }

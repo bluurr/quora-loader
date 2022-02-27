@@ -1,13 +1,16 @@
 package com.bluurr.quora.navigator;
 
 import com.bluurr.quora.BaseIntegrationTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static com.bluurr.quora.TestTag.USES_QUORA_PLATFORM;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Every.everyItem;
 
-class QuestionPageNavigatorIT extends BaseIntegrationTest {
+@Tag(USES_QUORA_PLATFORM)
+class QuestionPageNavigatorIntegrationTest extends BaseIntegrationTest {
 
   private static final String SEARCH_TERM = "java";
 

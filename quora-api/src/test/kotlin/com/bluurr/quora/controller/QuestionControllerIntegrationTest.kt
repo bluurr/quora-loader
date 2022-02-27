@@ -1,135 +1,105 @@
 package com.bluurr.quora.controller
 
-import io.restassured.RestAssured.given
-import io.restassured.response.ValidatableResponse
-import org.assertj.core.api.Assertions.assertThat
+import com.bluurr.quora.model.dto.QuestionResponse
+import com.bluurr.quora.service.QuestionSearchService
+import com.bluurr.quora.support.factory.QuestionSearchResponseFactory.questionAnswersDto
+import com.bluurr.quora.support.factory.QuestionSearchResponseFactory.questionSearchResponse
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
-import java.util.*
-import java.util.function.Consumer
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebMvcTest(QuestionController::class)
 internal class QuestionControllerIntegrationTest {
 
-    @LocalServerPort
-    var port: Int = 0
+    @Autowired
+    private lateinit var mvc: MockMvc
+
+    @MockBean
+    private lateinit var questionService: QuestionSearchService
 
     @Nested
-    inner class SearchForQuestion {
+    inner class SearchForQuestionIntegrationTest {
 
         @ValueSource(strings = ["Java", "Kotlin"])
         @ParameterizedTest
-        fun `Give a search term When searching for a question Then return question search results`(term: String) {
+        fun `Give a search ask When searching for a question Then return question search results`(ask: String) {
 
-            val searchResult = searchForQuestionsWithTerm(term)
+            // Given
+            val response = questionSearchResponse(ask = ask)
 
-            // Then
+            whenever(questionService.findQuestionsForTerm(ask, 1))
+                .thenReturn(listOf(response))
 
-            val results = searchResult
-                .statusCode(200)
-                .extract()
-                .body()
-                .jsonPath()
-                .getList(".", TestQuestionSearchResult::class.java)
-
-
-            assertThat(results).isNotEmpty
-
-            assertThat(results).allSatisfy(Consumer {
-
-                assertThat(it.id).isNotNull
-                assertThat(it.ask).isNotBlank
-                assertThat(it.location).isNotBlank
-            })
-        }
-
-        @Test
-        fun `Give a blank search term When searching for a question Then return bad request`() {
-
-            val searchResult = searchForQuestionsWithTerm("")
+            // When
+            val result = mvc.get("/questions") {
+                contentType = APPLICATION_JSON
+                param("term", ask)
+                param("limit", 1.toString())
+            }
 
             // Then
-
-            val results = searchResult
-                .statusCode(400)
-                .extract()
-                .body()
-                .jsonPath()
-                .getString("message")
-
-
-            assertThat(results).isEqualTo("findQuestionForTerm.term: must not be blank")
+            result.andExpect {
+                status { isOk() }
+                content {
+                    json(
+                        """
+                            [
+                                {
+                                    "id":"${response.id}",
+                                    "ask":"$ask",
+                                    "location":"question/$ask"
+                                }
+                            ]
+                        """.trimIndent()
+                    )
+                }
+            }
         }
     }
 
     @Nested
-    inner class FetchAnswers {
+    inner class FetchAnswersIntegrationTest {
 
-        private val term = "Java"
-
-        @ValueSource(ints = [ 1, 3, 5])
+        @ValueSource(ints = [1, 3, 5])
         @ParameterizedTest(name = "[{index}] answer limit {0}")
-        fun `Give a question When fetching question with requested answer count Then return full question`(answerLimit: Int) {
+        fun `Give a question When fetching question with requested answer count Then return full question`(
+            answerLimit: Int
+        ) {
 
             // Given
-
-            val questionId = searchForQuestionsWithTerm(term)
-                .statusCode(200)
-                .extract()
-                .body()
-                .jsonPath()
-                .getUUID("[0].id")
+            val question = questionSearchResponse()
+            val answers = questionAnswersDto(answerLimit)
 
             // When
+            whenever(questionService.getQuestion(question.id, answerLimit)).thenReturn(
+                QuestionResponse(
+                    id = question.id,
+                    asked = question.ask,
+                    answers = answers
+                )
+            )
 
-            val question = fetchFullQuestion(questionId, answerLimit)
+            val result = mvc.get("/questions/{questionId}", question.id) {
+                contentType = APPLICATION_JSON
+                param("answersLimit", answerLimit.toString())
+            }
 
             // Then
-
-            val result = question
-                .statusCode(200)
-                .extract()
-                .body()
-                .jsonPath()
-                .getObject(".", TestQuestionResult::class.java)
-
-
-            assertThat(result.id).isEqualTo(questionId)
-            assertThat(result.asked).isNotBlank
-            assertThat(result.answers).hasSize(answerLimit)
+            result.andExpect {
+                status { isOk() }
+                content {
+                    jsonPath("$.answers.length()") {
+                        value(answerLimit)
+                    }
+                }
+            }
         }
     }
-
-    fun searchForQuestionsWithTerm(term: String, limit: Int = 1): ValidatableResponse {
-
-        return given()
-            .port(port)
-            .contentType("application/json")
-            .queryParam("term", term)
-            .queryParam("limit", limit)
-            .`when`()
-            .get("questions")
-            .then()
-    }
-
-    fun fetchFullQuestion(questionId: UUID, answerLimit: Int = 1): ValidatableResponse {
-
-        return given()
-            .port(port)
-            .contentType("application/json")
-            .queryParam("answersLimit", answerLimit)
-            .`when`()
-            .get("questions/{questionId}", questionId.toString())
-            .then()
-    }
-
-
 }
-
-data class TestQuestionSearchResult(val id: UUID, val ask: String, val location: String)
-
-data class TestQuestionResult(val id: UUID, val asked: String, val answers: List<Any>)
