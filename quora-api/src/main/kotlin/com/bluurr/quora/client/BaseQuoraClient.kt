@@ -8,9 +8,9 @@ import com.bluurr.quora.model.user.UserSession
 import com.bluurr.quora.navigator.AuthenticatedNavigator
 import com.bluurr.quora.navigator.LoginPageNavigator
 
-class BaseQuoraClient(private val credentials: LoginCredential, driverFactory: DriverFactory): QuoraClient {
+class BaseQuoraClient(private val credentials: LoginCredential, driverFactory: DriverFactory) : QuoraClient {
 
-    private var session: UserSession? = null
+    private var currentSession: UserSession? = null
 
     private val driver = lazy {
         driverFactory.createDriver()
@@ -43,23 +43,14 @@ class BaseQuoraClient(private val credentials: LoginCredential, driverFactory: D
        }
     }
 
-    private fun authenticatedNavigator(): AuthenticatedNavigator {
-
-        return session?.let {
+    private fun authenticatedNavigator() = currentSession?.let {
             AuthenticatedNavigator(it, driver.value)
-        } ?: authenticate()
-    }
+        } ?: login()
 
-    private fun authenticate() : AuthenticatedNavigator {
+    private fun loginPage() = LoginPageNavigator(credentials, driver.value)
 
-        val login = LoginPageNavigator(credentials, driver.value)
-
-        val authenticatedNav =  login.authenticate()
-
-        // Copy over the session for later use.
-        session = authenticatedNav.session
-
-        return authenticatedNav
+    private fun login() = loginPage().authenticate().also {
+        currentSession = it.session
     }
 }
 

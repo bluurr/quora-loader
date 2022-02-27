@@ -42,17 +42,9 @@ class WebDriverConfiguration {
 
         private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
-        fun createDriver(): EnhancedDriver {
+        fun createDriver() = EnhancedDriver(driverProperties.baseUrl, chromeDriver())
 
-            return EnhancedDriver(driverProperties.baseUrl, chromeDriver())
-        }
-
-        private fun chromeDriver() : ChromeDriver {
-
-            val options = chromeOptions()
-
-            return ChromeDriver(options)
-        }
+        private fun chromeDriver() = ChromeDriver(chromeOptions())
 
         private fun chromeOptions() : ChromeOptions {
 

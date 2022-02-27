@@ -38,15 +38,10 @@ class BlockingQuoraClientProvider(private val clients: List<QuoraClient>) : Quor
 
         log.info("Closing client pool for ${clients.size} clients")
 
-        clients.forEach {
-            it.close()
-        }
+        clients.forEach(QuoraClient::close)
     }
 
-    private fun acquire(): QuoraClient {
-        // Take the last client that was used
-        return pool.takeLast()
-    }
+    private fun acquire() = pool.takeLast()
 
     private fun release(client: QuoraClient) {
         pool.put(client)
