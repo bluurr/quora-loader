@@ -13,7 +13,7 @@
 
     <properties>
         <project.spring.version>5.3.4</project.spring.version>
-        <project.lombok.version>1.18.18</project.lombok.version>
+        <project.lombok.version>1.18.22</project.lombok.version>
     </properties>
 
     <dependencies>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.1.2</version>
+            <version>4.1.4</version>
         </dependency>
 
         <dependency>
@@ -101,14 +101,14 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>selenium</artifactId>
-            <version>1.16.3</version>
+            <version>1.17.1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.16.3</version>
+            <version>1.17.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -125,7 +125,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.1</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
