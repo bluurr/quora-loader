@@ -11,13 +11,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.Closeable;
+import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class EnhancedDriver implements Closeable {
 
-  private static final int DEFAULT_TIMEOUT_SECONDS = 8;
-  private static final int DEFAULT_WAIT_MILLISECOND = 500;
+  private static final Duration DEFAULT_TIMEOUT_SECONDS = Duration.ofSeconds(8);
+  private static final Duration DEFAULT_WAIT_MILLISECOND = Duration.ofMillis(500);
 
   @Getter
   private final String baseUrl;
