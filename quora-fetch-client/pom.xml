@@ -13,7 +13,7 @@
 
     <properties>
         <project.spring.version>5.3.4</project.spring.version>
-        <project.lombok.version>1.18.22</project.lombok.version>
+        <project.lombok.version>1.18.24</project.lombok.version>
     </properties>
 
     <dependencies>
